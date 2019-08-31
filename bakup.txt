@@ -1,0 +1,80 @@
+    //   <Container>
+    //     {/* <Header>
+    //     <Left>
+    //         <Button transparent>
+    //           <Icon name='menu' />
+    //         </Button>
+    //       </Left>
+    //       <Body>
+    //         <Title>Full Body</Title>
+    //       </Body>
+    //       <Right />
+    //     </Header> */}
+    //     <Content>
+    //     <Separator bordered>
+    //         <Text>Waktu dan Lokasi Pemesanan</Text>
+    //       </Separator>
+    //       <ListItem>
+    //       <DatePicker
+    //             defaultDate             = {new Date(2018, 4, 4)}
+    //             minimumDate             = {new Date(2000, 1, 1)}
+    //             maximumDate             = {new Date(2999, 12, 31)}
+    //             locale                  = {"id"}
+    //             timeZoneOffsetInMinutes = {undefined}
+    //             modalTransparent        = {false}
+    //             animationType           = {"fade"}
+    //             androidMode             = {"default"}
+    //             placeHolderText         = "Select date"
+    //             textStyle               = {{ color: "green" }}
+    //             placeHolderTextStyle    = {{ color: "#d3d3d3" }}
+    //             onDateChange            = {this.setDate.bind(this)}
+    //             disabled                = {false}
+    //         />
+    //         <Text>
+    //           Date: {this.state.chosenDate.toString().substr(4, 12)}
+    //         </Text>
+    //         <Button onPress={this.openTimePicker.bind(this)}> 
+    //             <Text>Select Time</Text>
+    //         </Button>
+    //       </ListItem>
+    //       <ListItem last>
+
+    //       </ListItem>
+    //       <Separator bordered>
+    //         <Text>Detail Pembayaran</Text>
+    //       </Separator>
+    //       <ListItem>
+    //         <Text>Caroline Aaron</Text>
+    //       </ListItem>
+    //       <ListItem last>
+    //         <Text>Lee Allen</Text>
+    //       </ListItem> 
+    //       <Separator bordered>
+    //         <Text>Ringkasan</Text>
+    //       </Separator>
+    //       <ListItem last>
+    //         <Text>Caroline Aaron</Text>
+    //       </ListItem>       
+    //       {/* <Card>
+    //             <CardItem>
+    //                 Waktu dan Lokasi Pemesanan
+    //                 Jam
+    //                 Tanggal
+    //                 Alamat
+    //                 Metode Pembayaran
+    //                 Detail Pembayaran
+    //                 Summary
+                    
+
+    //             </CardItem>
+    //       </Card>             */}
+    //     </Content>
+    //     <Footer>
+    //         <FooterTab>
+    //             <Text> Total </Text>
+    //             <Button full>
+    //                 <Text>Pesan</Text>
+    //             </Button>
+    //         </FooterTab>
+    //     </Footer>
+    //   </Container>
