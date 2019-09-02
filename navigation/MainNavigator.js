@@ -13,7 +13,7 @@ const MainStack = createStackNavigator(
     Konfirmasi: KategoriScreen,
   },
   {
-    initialRouteName: 'Pesan',
+    initialRouteName: 'Kategori',
   }
 );
 

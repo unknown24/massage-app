@@ -1,4 +1,6 @@
-import React from 'react';
+import React, {Component} from 'react';
+import MapView from 'react-native-maps';
+import MapPicker from "react-native-map-picker";
 
 import { Platform, Text, View, StyleSheet } from 'react-native';
 // import Colors from '../constants/Colors';
@@ -7,7 +9,7 @@ import * as Location from 'expo-location';
 import * as Permissions from 'expo-permissions';
 
 
-export default class App extends Component {
+export default class MapSelect extends Component {
     state = {
       location: null,
       errorMessage: null,
@@ -36,32 +38,45 @@ export default class App extends Component {
     };
   
     render() {
-      let text = 'Waiting..';
-      if (this.state.errorMessage) {
-        text = this.state.errorMessage;
-      } else if (this.state.location) {
-        text = JSON.stringify(this.state.location);
-      }
-  
-      return (
-        <View style={styles.container}>
-          <Text style={styles.paragraph}>{text}</Text>
-        </View>
-      );
+
+      const {location} = this.state
+
+      if (location){
+        
+        return (
+          <View style={{flex: 1}}>
+            <MapPicker
+              initialCoordinate={{
+                latitude: location.coords.latitude,
+                longitude: location.coords.longitude,
+              }}
+              onLocationSelect={({latitude, longitude})=>this.props.onLocationSelect(latitude,longitude)}
+            />
+          </View>
+        )
+
+      } else {
+          return <View><Text>Loading</Text></View>
+        }
     }
   }
+
+  MapSelect.defaultProps = {
+    onLocationSelect : (lat, lng) => console.log(lat, lng)
+  } 
+  
   
   const styles = StyleSheet.create({
     container: {
-      flex: 1,
-      alignItems: 'center',
-      justifyContent: 'center',
-      paddingTop: Constants.statusBarHeight,
+      flex           : 1,
+      alignItems     : 'center',
+      justifyContent : 'center',
+      paddingTop     : Constants.statusBarHeight,
       backgroundColor: '#ecf0f1',
     },
     paragraph: {
-      margin: 24,
-      fontSize: 18,
+      margin   : 24,
+      fontSize : 18,
       textAlign: 'center',
     },
   });
