@@ -96,7 +96,8 @@ export default class App extends Component {
     transactionList.update({
       list: firebase.firestore.FieldValue.arrayUnion({
         user_id : 24,
-        location: new firebase.firestore.GeoPoint(0.1, 0.2)
+        location: new firebase.firestore.GeoPoint(0.1, 0.2),
+        status  : 'apply'   // apply, ongoing, reject, finish  
       })
     })
 
