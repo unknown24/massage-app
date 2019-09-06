@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
-import { Platform, StyleSheet,  Modal, TouchableHighlight, Image,TimePickerAndroid, View, Alert } from 'react-native';
+import {Platform, StyleSheet,  Modal, TouchableHighlight, Image,TimePickerAndroid, View, Alert } from 'react-native';
 import Constants from 'expo-constants';
+
+import queryString from 'query-string'
 import MapPicker from '../components/MapPicker'
 import { 
     Container, 
@@ -32,13 +34,8 @@ import {
     Separator,
     DatePicker
 } from 'native-base';
-import initApp from '../constants/firebase';
 
-const firebase = initApp()
-const dbh = firebase.firestore();
-
-
-
+const user_id = 'u1'
 
 export default class App extends Component {
     state = {
@@ -57,10 +54,6 @@ export default class App extends Component {
     setModalVisible(visible) {
       this.setState({ modalVisible: visible });
     }  
-    
-    async parseLocation(lat, lng){
-      return fetch('https://api.opencagedata.com/geocode/v1/json?q=LAT+LNG&key=d499aaad313d44a38a97cbb51be4a37d').then(res=> res.json)
-    }
 
     handleSelectMap(lat, lng){
       this.setState({
@@ -70,7 +63,6 @@ export default class App extends Component {
     }
 
     setDate(newDate){
-      console.log(newDate)
       this.setState({chosenDate:newDate})
   }
 
@@ -91,23 +83,22 @@ export default class App extends Component {
   }
 
   async pesanMassage(){
-    
-    const transactionList = dbh.collection("partner").doc("transaction")
-    transactionList.update({
-      list: firebase.firestore.FieldValue.arrayUnion({
-        user_id : 24,
-        location: new firebase.firestore.GeoPoint(0.1, 0.2),
-        status  : 'apply'   // apply, ongoing, reject, finish  
-      })
-    })
+    const params = {
+      latitude : 0.2,
+      longitude: 0.1,
+      payment : 'bank',
+      user_id
+    }
+    const stringified = queryString.stringify(params)
+    const res = await fetch('http://515d991a.ngrok.io/massage-app-server/order.php?' + stringified)
+      .then(res=>res.json(), err=> console.log(err))
+      .catch(err=> console.log(err))
 
-  }
-
-  componentDidMount(){
-    var starCountRef = firebase.database().ref('users/bagus');
-    starCountRef.on('value', function(snapshot) {
-      console.log(snapshot.val())
-    });
+    if (res.error == ""){
+      this.props.navigation.navigate('EndStep')
+    } else {
+      Alert.alert('error')
+    }
   }
     
     render() {
@@ -214,7 +205,7 @@ export default class App extends Component {
                 <Text style={{color:'white'}}> Rp 100000 </Text>
             </Left>
             <Right style={{marginRight:10}}>
-                <Button success onPress={this.pesanMassage}>
+                <Button success onPress={this.pesanMassage.bind(this)}>
                     <Text>Pesan</Text>
                 </Button>
             </Right>

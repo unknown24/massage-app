@@ -4,6 +4,8 @@ import { createStackNavigator } from 'react-navigation';
 import KategoriScreen from '../screens/Kategori';
 import ProdukScreen from '../screens/Produk';
 import PesanScreen from '../screens/Pesan';
+import WaitingScreen from '../screens/WaitingScreen';
+
 
 const MainStack = createStackNavigator(
   {
@@ -11,9 +13,10 @@ const MainStack = createStackNavigator(
     Produk    : ProdukScreen,
     Pesan     : PesanScreen,
     Konfirmasi: KategoriScreen,
+    EndStep   : WaitingScreen,
   },
   {
-    initialRouteName: 'Kategori',
+    initialRouteName: 'Pesan',
   }
 );
 
