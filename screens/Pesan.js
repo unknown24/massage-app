@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import {Platform, StyleSheet,  Modal, TouchableHighlight, Image,TimePickerAndroid, View, Alert } from 'react-native';
 import Constants from 'expo-constants';
+import * as Location from 'expo-location';
+import * as Permissions from 'expo-permissions';
 
 import queryString from 'query-string'
 import MapPicker from '../components/MapPicker'
@@ -45,6 +47,29 @@ export default class App extends Component {
       selected    : "key1"
     };
 
+    componentWillMount() {
+      if (Platform.OS === 'android' && !Constants.isDevice) {
+        this.setState({
+          errorMessage: 'Oops, this will not work on Sketch in an Android emulator. Try it on your device!',
+        });
+      } else {
+        this._getLocationAsync();
+      }
+    }
+
+    _getLocationAsync = async () => {
+      let { status } = await Permissions.askAsync(Permissions.LOCATION);
+      if (status !== 'granted') {
+        this.setState({
+          errorMessage: 'Permission to access location was denied',
+        });
+      }
+  
+      let location = await Location.getCurrentPositionAsync({});
+      this.setState({ location });
+    };
+  
+
     onValueChange(value) {
       this.setState({
         selected: value
@@ -83,9 +108,10 @@ export default class App extends Component {
   }
 
   async pesanMassage(){
+    const lokasi =  this.state.location.coords
     const params = {
-      latitude : 0.2,
-      longitude: 0.1,
+      latitude : lokasi.latitude,
+      longitude: lokasi.longitude,
       payment : 'bank',
       user_id
     }
