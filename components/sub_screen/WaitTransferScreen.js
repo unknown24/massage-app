@@ -14,7 +14,7 @@ export default class TransferScreen extends React.Component{
                     <View style={{justifyContent:'center', alignItems:'center'}}>
                         <Image
                             style={{width:200, textAlign:'center'}} 
-                            source={require('../../assets/images/worker.svg')} />
+                            source={require('../../assets/images/money-transfer.svg')} />
                     </View>  
                 </Content>          
             </Container>

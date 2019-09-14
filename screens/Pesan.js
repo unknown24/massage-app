@@ -36,6 +36,7 @@ import {
     Separator,
     DatePicker
 } from 'native-base';
+import url from '../constants/API';
 
 const user_id = 'u1'
 
@@ -116,10 +117,10 @@ export default class App extends Component {
       user_id
     }
     const stringified = queryString.stringify(params)
-    const res = await fetch('http://515d991a.ngrok.io/massage-app-server/order.php?' + stringified)
+    const res = await fetch( url + 'massage-app-server/order.php?' + stringified)
       .then(res=>res.json(), err=> console.log(err))
       .catch(err=> console.log(err))
-
+    console.log(res)
     if (res.error == ""){
       this.props.navigation.navigate('EndStep')
     } else {
