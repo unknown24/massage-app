@@ -1,19 +1,20 @@
-import React from 'react';
-import { createAppContainer, createSwitchNavigator } from 'react-navigation';
+// eslint-disable-next-line no-unused-vars
+import React from "react";
+import { createAppContainer, createSwitchNavigator } from "react-navigation";
 
-import MainNavigator from './MainNavigator'
-import RegisterScreen from '../screens/Register'
-import LoginScreen from '../screens/Login'
+import MainNavigator from "./MainNavigator";
+import RegisterScreen from "../screens/Register";
+import LoginScreen from "../screens/Login";
 
 export default createAppContainer(
-  createSwitchNavigator({
-    // You could add another route here for authentication.
-    // Read more at https://reactnavigation.org/docs/en/auth-flow.html
-    Main    : MainNavigator,
-    Register: RegisterScreen,
-    Login   : LoginScreen
-  },
-  {
-    initialRouteName: 'Main',
-  })
+  createSwitchNavigator(
+    {
+      Main: MainNavigator,
+      Register: RegisterScreen,
+      Login: LoginScreen
+    },
+    {
+      initialRouteName: "Login"
+    }
+  )
 );
