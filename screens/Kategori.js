@@ -68,7 +68,7 @@ export default class KategoriScreen extends Component {
       <Container>
         <Header />
         <Content style={{ flexDirection: "row" }}>
-          <Text style={{fontSize:20}}> Pilih Kategori </Text>
+          <Text style={{fontSize:20, marginTop:10}}> Pilih Kategori </Text>
           <FlatGrid
             itemDimension={100}
             items={data}
