@@ -1,22 +1,25 @@
-import React from 'react';
-import { createStackNavigator } from 'react-navigation';
+// eslint-disable-next-line no-unused-vars
+import React from "react";
+import { createStackNavigator } from "react-navigation";
 
-import KategoriScreen from '../screens/Kategori';
-import ProdukScreen from '../screens/Produk';
-import PesanScreen from '../screens/Pesan';
-import WaitingScreen from '../screens/WaitingScreen';
-
+import KategoriScreen from "../screens/Kategori";
+import ProdukScreen from "../screens/Produk";
+import PesanScreen from "../screens/Pesan";
+import WaitingScreen from "../screens/WaitingScreen";
 
 const MainStack = createStackNavigator(
   {
-    Kategori  : KategoriScreen,
-    Produk    : ProdukScreen,
-    Pesan     : PesanScreen,
+    Kategori: KategoriScreen,
+    Produk: ProdukScreen,
+    Pesan: PesanScreen,
     Konfirmasi: KategoriScreen,
-    EndStep   : WaitingScreen,
+    EndStep: WaitingScreen
   },
   {
-    initialRouteName: 'Pesan',
+    initialRouteName: "Kategori",
+    navigationOptions: {
+      header: null
+    }
   }
 );
 

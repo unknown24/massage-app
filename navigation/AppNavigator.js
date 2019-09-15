@@ -2,14 +2,15 @@
 import React from "react";
 import { createAppContainer, createSwitchNavigator } from "react-navigation";
 
-import MainNavigator from "./MainNavigator";
+import TabNavigator from './MainTabNavigator'
 import RegisterScreen from "../screens/Register";
 import LoginScreen from "../screens/Login";
+import { Root } from "native-base";
 
-export default createAppContainer(
+const AppNavigator = createAppContainer(
   createSwitchNavigator(
     {
-      Main: MainNavigator,
+      Main: TabNavigator,
       Register: RegisterScreen,
       Login: LoginScreen
     },
@@ -18,3 +19,11 @@ export default createAppContainer(
     }
   )
 );
+
+const App = () => (
+  <Root>
+    <AppNavigator />
+  </Root>
+);
+
+export default App;

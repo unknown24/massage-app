@@ -1,116 +1,94 @@
-import React, { Component } from 'react';
-import {StyleSheet} from 'react-native'
-import { 
-    Container, 
-    Header, 
-    Content, 
-    Text,
-    Body,
-    Title,
-    Grid,
-    Col,
-    Row,
-    Icon, 
-    Left,
-    Right,
-    Button
-} from 'native-base';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { AsyncStorage } from "react-native";
+import { Container, Header, Content, Text, Icon, View } from "native-base";
 
-const styles = StyleSheet.create({
-    itemKategori : {
-        justifyContent: 'flex-start',
-        alignItems    : 'center',
-        height        : 100
-    },
-  });
+import { FlatGrid } from "react-native-super-grid";
 
 const data = [
-    {
-        id  : "full-body",
-        icon: <Icon name="ios-car" />,
-        text: "Full body Massage",
-    },
-    {
-        id : "shiatshu",
-        icon : <Icon name="ios-car" />,
-        text : "Shiatshu"
-    },
-    {
-        id : "reflexiogy",
-        icon : <Icon name="ios-car" />,
-        text : "Reflexiogy"
-    },
-    {
-        id : "totok",
-        icon : <Icon name="ios-car" />,
-        text : "Totok Wajah"
-    },
-    {
-        id : "lulur",
-        icon : <Icon name="ios-car" />,
-        text : "Lulur"
-    },
-    {
-        id : "segment",
-        icon : <Icon name="ios-car" />,
-        text : "Segment Massage"
-    },
-    {
-        id : "body-foot",
-        icon : <Icon name="ios-car" />,
-        text : "body Massage & Foot Reflexiogy"
-    },
-
-]
+  {
+    id: "full-body",
+    icon: <Icon name="ios-flask" />,
+    text: "Full Body Massage"
+  },
+  {
+    id: "shiatshu",
+    icon: <Icon name="ios-git-compare" />,
+    text: "Shiatshu"
+  },
+  {
+    id: "reflexiogy",
+    icon: <Icon name="ios-git-merge" />,
+    text: "Reflexiogy"
+  },
+  {
+    id: "totok",
+    icon: <Icon name="ios-thunderstorm" />,
+    text: "Totok Wajah"
+  },
+  {
+    id: "lulur",
+    icon: <Icon name="ios-thermometer" />,
+    text: "Lulur"
+  },
+  {
+    id: "segment",
+    icon: <Icon name="ios-snow" />,
+    text: "Segment Massage"
+  },
+  {
+    id: "body-foot",
+    icon: <Icon name="ios-rose" />,
+    text: "Body & Foot Reflexiogy"
+  }
+];
 
 export default class KategoriScreen extends Component {
-    static navigationOptions = {
-        header: null,
-    };
+  static propTypes = {
+    navigation: PropTypes.shape({
+      navigate: PropTypes.func
+    })
+  };
 
-    goToDetail(title){
-        this.props.navigation.navigate('Produk', {title})
-    }
+  static navigationOptions = {
+    header: null
+  };
+
+  goToDetail(title) {
+    this.props.navigation.navigate("Produk", { title });
+  }
+
+  async logOut() {
+    await AsyncStorage.clear();
+    this.props.navigation.navigate("Login");
+  }
 
   render() {
-
-    const row1 = data.filter((obj,i) => i < 4)
-    const row2 = data.filter((obj,i) => i >= 4)
-    
     return (
       <Container>
-        <Header/>
-        <Content>
-            <Grid>
-                <Row>
-                    {row1.map(obj => {
-                        return (
-                            <Col 
-                                key={obj.id} >
-                                <TouchableOpacity onPress={this.goToDetail.bind(this, obj.text)} style={styles.itemKategori}>
-                                    {obj.icon}
-                                    <Text style={{textAlign:"center"}}>{obj.text}</Text>
-                                </TouchableOpacity>
-                            </Col>
-                        )
-                    })}
-                </Row>
-                <Row>
-                    {row2.map(obj => {
-                        return (
-                            <Col key={obj.id}>
-                                <TouchableOpacity onPress={this.goToDetail.bind(this, obj.id)} style={styles.itemKategori}>
-                                    {obj.icon}
-                                    <Text style={{textAlign:"center"}}>{obj.text}</Text>
-                                </TouchableOpacity>
-                            </Col>
-                        )
-                    })}
-                </Row>
-            </Grid>
-
-            
+        <Header />
+        <Content style={{ flexDirection: "row" }}>
+          <Text style={{fontSize:20}}> Pilih Kategori </Text>
+          <FlatGrid
+            itemDimension={100}
+            items={data}
+            renderItem={({ item }) => (
+              <View style={{
+                  borderStyle   : 'solid',
+                  borderWidth   : 1,
+                  borderColor   : 'black',
+                  height        : 100,
+                  justifyContent: 'center',
+                  alignItems    : 'center',
+                  borderRadius  : 5
+              }}>
+                {item.icon}
+                <Text onPress={this.goToDetail.bind(this, item.text)} style={{textAlign:'center'}}>
+                  {item.text}
+                </Text>
+              </View>
+            )}
+          />
         </Content>
       </Container>
     );
