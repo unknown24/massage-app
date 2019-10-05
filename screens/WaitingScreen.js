@@ -1,5 +1,6 @@
 import React from 'react';
 import initApp from '../library/firebase/firebase';
+import { AsyncStorage, Image } from "react-native";
 
 import SearchScreen from '../components/sub_screen/SearchScreeen'
 import WaitTransferScreen from '../components/sub_screen/WaitTransferScreen'
@@ -10,20 +11,27 @@ import { getLastString } from '../library/String'
 
 const firebase = initApp()
 const dbh      = firebase.firestore();
-const user_id  = 'u1'
 
 export default class WaitingScreen extends React.Component {
     state = {
         screen : 'search'// waiting_transfer , on_the_way , doing, finish
     }
 
-    componentDidMount(){
+    static navigationOptions = {
+      tabBarVisible: false,
+      header       : null,
+    };
+
+    async componentDidMount(){
+
+      this.user_id = await AsyncStorage.getItem("user_id")
       this._listenToPesanan(this)
+
     }
 
     _listenToPesanan(that){
 
-        dbh.collection("pesananClient").where("user_id", "==", user_id)
+        dbh.collection("pesananClient").where("user_id", "==", that.user_id)
           .onSnapshot(function(querySnapshot) {
             querySnapshot.docChanges().forEach(function(change) {
 

@@ -54,11 +54,42 @@ export default class ProdukScreen extends Component {
     };
 
     state = {
-        selected: 'key1'
+        selected: '60',
+        price : "Rp 100.000"
     }
 
     handlePesan(){
-        this.props.navigation.navigate('Pesan')
+
+        this.props.navigation.navigate('Pesan', {
+          produk: this.props.navigation.getParam('title', 'unknown'),
+          durasi:this.state.selected
+        })
+    }
+
+    handleChangeDuration(value){
+      let price = 0
+      switch (value) {
+        case "60":
+          price = "Rp 100.000"
+          break;
+        
+        case "90":
+          price = "Rp 120.000"
+        break;
+
+        case "120":
+          price = "Rp 150.000"
+        break;
+      
+        default:
+            price = "Rp 0"
+          break;
+      }
+      
+      this.setState({
+        selected:value,
+        price 
+      })
     }
 
 
@@ -81,7 +112,8 @@ export default class ProdukScreen extends Component {
         <Content>
         
           <Card>
-            <CardItem>
+            
+            {/* <CardItem>
               <Left>
                 <Thumbnail source={{uri:data.image}} />
                 <Body>
@@ -89,7 +121,8 @@ export default class ProdukScreen extends Component {
                   <Text note>GeekyAnts</Text>
                 </Body>
               </Left>
-            </CardItem>
+            </CardItem> */}
+
             <CardItem cardBody>
               <Image source={{uri:data.image}} style={{height: 200, width: null, flex: 1}}/>
             </CardItem>
@@ -116,7 +149,7 @@ export default class ProdukScreen extends Component {
                         placeholderIconColor = "#007aff"
                         style                = {{ width: undefined }}
                         selectedValue        = {this.state.selected}
-                        onValueChange        = {(value)=> this.setState({selected:value})}
+                        onValueChange        = {this.handleChangeDuration.bind(this)}
                         >
                             <Picker.Item label="60 Menit" value="60" />
                             <Picker.Item label="90 Menit" value="90" />
@@ -126,8 +159,7 @@ export default class ProdukScreen extends Component {
             </CardItem>            
             <CardItem>
                 <Left>
-                    <CheckBox checked={false} />
-                    <Text> Term and Aggreement</Text>
+                  <Text>Harga : </Text><Text>{this.state.price}</Text>
                 </Left>         
             </CardItem>
           </Card>            

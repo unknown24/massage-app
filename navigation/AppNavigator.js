@@ -7,12 +7,17 @@ import RegisterScreen from "../screens/Register";
 import LoginScreen from "../screens/Login";
 import { Root } from "native-base";
 
+// debug screen
+import WaitingScreen from '../screens/WaitingScreen'
+
+
 const AppNavigator = createAppContainer(
   createSwitchNavigator(
     {
-      Main: TabNavigator,
+      Main    : TabNavigator,
       Register: RegisterScreen,
-      Login: LoginScreen
+      Login   : LoginScreen,
+      WaitingScreen
     },
     {
       initialRouteName: "Login"

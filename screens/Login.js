@@ -34,11 +34,10 @@ export default class Login extends Component {
     const respon = await this.validateLogin(email, password);
     if (respon.status) {
       // lempar screen
-      await AsyncStorage.setItem("login", "1");
+      await AsyncStorage.multiSet([["login", '1'], ["user_id", respon.data.id]])
       navigate("Main");
     } else {
       // toast message
-      console.log(respon);
       ToastAndroid.show(respon.message, ToastAndroid.SHORT);
     }
   }
@@ -71,7 +70,6 @@ export default class Login extends Component {
     const isLogin = await AsyncStorage.getItem("login");
     if (isLogin) {
       this.props.navigation.navigate("Home");
-      ToastAndroid.show(isLogin, ToastAndroid.SHORT);
     }
   }
 
@@ -114,9 +112,9 @@ export default class Login extends Component {
               info
               style={{
                 justifyContent: "center",
-                marginLeft: 20,
-                marginRight: 20,
-                marginTop: 20
+                marginLeft    : 20,
+                marginRight   : 20,
+                marginTop     : 20
               }}
             >
               <Text> Login </Text>

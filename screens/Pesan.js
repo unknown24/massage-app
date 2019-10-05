@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
-import {Platform, StyleSheet,  Modal, TouchableHighlight, Image,TimePickerAndroid, View, Alert } from 'react-native';
+import {Platform, StyleSheet,  Modal, TouchableHighlight, Image,TimePickerAndroid, View, Alert, AsyncStorage } from 'react-native';
 import Constants from 'expo-constants';
 import * as Location from 'expo-location';
 import * as Permissions from 'expo-permissions';
+
 
 import queryString from 'query-string'
 import MapPicker from '../components/MapPicker'
@@ -34,7 +35,8 @@ import {
     Label,
     CheckBox,
     Separator,
-    DatePicker
+    DatePicker,
+    Textarea
 } from 'native-base';
 import url from '../constants/API';
 
@@ -42,21 +44,41 @@ const user_id = 'u1'
 
 export default class App extends Component {
     state = {
-      modalVisible: false,
-      location    : null,
-      chosenDate  : '',
-      selected    : "key1"
+      modalVisible    : false,
+      location        : null,
+      chosenDate      : '',
+      choosenTime     : '',
+      formatedLocation: '',
+      selectedPayment : 'tunai',
+      distancePrice   : 0,
+      total           : 0
     };
 
-    componentWillMount() {
-      if (Platform.OS === 'android' && !Constants.isDevice) {
-        this.setState({
-          errorMessage: 'Oops, this will not work on Sketch in an Android emulator. Try it on your device!',
-        });
-      } else {
-        this._getLocationAsync();
+    static navigationOptions = ({ navigation }) => {
+      const { params } = navigation.state;
+      
+      return {
+        title: 'Pesan Pijat',
       }
+  };
+
+  async componentDidMount(){
+    this.user_id = await AsyncStorage.getItem("user_id")
+    this.durasi = this.props.navigation.getParam('durasi', '0')
+    this.setState({
+      total : this.state.distancePrice + this.getPriceDuration(this.durasi)
+    })
+  }
+
+  componentWillMount() {  
+    if (Platform.OS === 'android' && !Constants.isDevice) {
+      this.setState({
+        errorMessage: 'Oops, this will not work on Sketch in an Android emulator. Try it on your device!',
+      });
+    } else {
+      this._getLocationAsync();
     }
+  }
 
     _getLocationAsync = async () => {
       let { status } = await Permissions.askAsync(Permissions.LOCATION);
@@ -67,13 +89,28 @@ export default class App extends Component {
       }
   
       let location = await Location.getCurrentPositionAsync({});
-      this.setState({ location });
+      const formated = await this.formatLocation({lat:location.coords.latitude, lng:location.coords.longitude})
+
+      if (!this.durasi){
+        this.durasi = this.props.navigation.getParam('durasi', '0')
+      }
+
+      this.setState({ 
+        location: {
+          lat:location.coords.latitude,
+          lng:location.coords.longitude
+        },
+        formatedLocation: formated,
+        distancePrice   : this.getRangeDuration(),
+        total           : this.getRangeDuration() + this.getPriceDuration(this.durasi),
+      });
+
     };
   
 
     onValueChange(value) {
       this.setState({
-        selected: value
+        selectedPayment: value
       });
     }
 
@@ -81,15 +118,31 @@ export default class App extends Component {
       this.setState({ modalVisible: visible });
     }  
 
-    handleSelectMap(lat, lng){
+    async handleSelectMap(lat, lng){
+
       this.setState({
         modalVisible: false,
-        location    : {lat,lng}
+        location    : {lat,lng},
+        formatedLocation : await this.formatLocation({lat,lng})
       })
     }
 
     setDate(newDate){
       this.setState({chosenDate:newDate})
+  }
+
+  async formatLocation(location){
+    if (!location) {
+      return ''
+    }
+    const formatLocation = await Location.reverseGeocodeAsync({
+      latitude : location.lat,
+      longitude: location.lng
+    })
+
+    const  {street, city, region, postalCode, country, name} = formatLocation[0]
+    return street + " " + city + " " + region  + " " + postalCode
+
   }
 
   async openTimePicker(){
@@ -101,7 +154,8 @@ export default class App extends Component {
           });
           if (action !== TimePickerAndroid.dismissedAction) {
             // Selected hour (0-23), minute (0-59)
-            console.log(action, hour, minute)
+            this.setState({choosenTime: hour + ':' + minute })
+
           }
         } catch ({code, message}) {
           console.warn('Cannot open time picker', message);
@@ -109,66 +163,130 @@ export default class App extends Component {
   }
 
   async pesanMassage(){
-    const lokasi =  this.state.location.coords
+    this.props.navigation.navigate('EndStep')
+    return
+
+    const lokasi =  this.state.location
     const params = {
-      latitude : lokasi.latitude,
-      longitude: lokasi.longitude,
+      latitude : lokasi.lat,
+      longitude: lokasi.lng,
       payment : 'bank',
       user_id
     }
     const stringified = queryString.stringify(params)
-    const res = await fetch( url + 'massage-app-server/order.php?' + stringified)
-      .then(res=>res.json(), err=> console.log(err))
-      .catch(err=> console.log(err))
-    console.log(res)
+    let res
+    try {
+      res = await fetch( url + 'massage-app-server/order.php?' + stringified)
+      .then(res=>res.text())
+      res = JSON.parse(res)
+    } catch (error) {
+      console.log(error)
+      Alert.alert('Error In Server.')
+      return
+    }
+    
     if (res.error == ""){
       this.props.navigation.navigate('EndStep')
     } else {
       Alert.alert('error')
     }
   }
+
+  formatDurasi(duration){
+    switch (duration) {
+      case "60":
+        return "60 Menit"
+        break;
+      case "90":
+          return "90 Menit"
+          break;
+      case "120":
+          return "120 Menit"
+          break;
+      default:
+          return "0 Menit"
+        break;
+    }
+  }
+
+  handleChangeAlamat(text){
+    this.setState({
+      formatedLocation: text
+    })
+  }
+
+
+  getPriceDuration(value){
+    let price = 0
+    switch (value) {
+      case "60":
+        price = 100000
+        break;
+      
+      case "90":
+        price = 120000
+      break;
+
+      case "120":
+        price = 150000
+      break;
     
-    render() {
+      default:
+          price = 0
+        break;
+    }
+    
+    return price
+  }
+
+  getRangeDuration(){
+    return 20000
+  }
+    
+  render() {
       return (
-            <Container>
-        {/* <Header>
-        <Left>
-            <Button transparent>
-              <Icon name='menu' />
+      <Container>
+        <Content>
+        <Separator bordered>
+          <Text>Waktu dan Lokasi Pemesanan</Text>
+        </Separator>
+        <ListItem>
+          <Left>
+            <Button>
+              <DatePicker
+                    date                    = {''}
+                    defaultDate             = {new Date()}
+                    minimumDate             = {new Date(2000, 1, 1)}
+                    maximumDate             = {new Date(2999, 12, 31)}
+                    locale                  = {"id"}
+                    timeZoneOffsetInMinutes = {undefined}
+                    modalTransparent        = {false}
+                    animationType           = {"fade"}
+                    androidMode             = {"default"}
+                    placeHolderText         = "PILIH TANGGAL"
+                    textStyle               = {{ color:'white' }}
+                    placeHolderTextStyle    = {{ color: "white" }}
+                    onDateChange            = {this.setDate.bind(this)}
+                    disabled                = {false}
+                />
             </Button>
           </Left>
           <Body>
-            <Title>Full Body</Title>
-          </Body>
-          <Right />
-        </Header> */}
-        <Content>
-        <Separator bordered>
-            <Text>Waktu dan Lokasi Pemesanan</Text>
-          </Separator>
-          <ListItem>
-          <DatePicker
-                defaultDate             = {new Date(2018, 4, 4)}
-                minimumDate             = {new Date(2000, 1, 1)}
-                maximumDate             = {new Date(2999, 12, 31)}
-                locale                  = {"id"}
-                timeZoneOffsetInMinutes = {undefined}
-                modalTransparent        = {false}
-                animationType           = {"fade"}
-                androidMode             = {"default"}
-                placeHolderText         = "Select date"
-                textStyle               = {{ color: "green" }}
-                placeHolderTextStyle    = {{ color: "#d3d3d3" }}
-                onDateChange            = {this.setDate.bind(this)}
-                disabled                = {false}
-            />
-            <Text>
-              Date: {this.state.chosenDate.toString().substr(4, 12)}
-            </Text>
-            <Button onPress={this.openTimePicker.bind(this)}> 
-                <Text>Select Time</Text>
-            </Button>
+            <Text>{this.state.chosenDate.toString().substr(4, 12)}</Text>
+          </Body> 
           </ListItem>
+
+          <ListItem>
+              <Left>
+                <Button onPress={this.openTimePicker.bind(this)}> 
+                    <Text>Pilih Waktu</Text>
+                </Button>
+              </Left>
+              <Body>
+                <Text>{this.state.choosenTime}</Text>
+              </Body>
+          </ListItem>
+
           <ListItem last>
             <Modal
               presentationStyle = "fullScreen"
@@ -176,68 +294,70 @@ export default class App extends Component {
               transparent       = {false}
               visible           = {this.state.modalVisible}>
                 <MapPicker onLocationSelect={this.handleSelectMap.bind(this)}/>
-          </Modal>
-
-          <Button onPress={() => {this.setModalVisible(true)}}>
-            <Text>Pilih Alamat </Text>
-          </Button>
-          <Input />
+            </Modal>
+            <View style={{flexDirection:'column',alignItems:'flex-start'}}>
+              <Textarea onChangeText={this.handleChangeAlamat.bind(this)} rowSpan={5} bordered placeholder="Masukan Alamat" value={this.state.formatedLocation}/>
+              <Button onPress={() => {this.setModalVisible(true)}} style={{justifyContent:'center', alignSelf:'stretch'}}>
+                <Text> Pilih Alamat </Text>
+              </Button>
+              <View style={{justifyContent:'flex-start'}}>
+                <Text>Harga Jarak :  Rp {this.state.distancePrice}</Text>
+              </View>
+            </View>
           </ListItem>
+          
           <Separator bordered>
             <Text>Detail Pembayaran</Text>
           </Separator>
+
           <ListItem last>
-          <Picker
-              note
-              mode          = "dropdown"
-              style         = {{ width: 120 }}
-              selectedValue = {this.state.selected}
-              onValueChange = {this.onValueChange.bind(this)}
-            >
-              <Picker.Item label="Bank Transfer" value="key0" />
-              <Picker.Item label="Tunai" value="key1" />
-            </Picker>
+            <Picker
+                note
+                mode          = "dropdown"
+                style         = {{ width: 120 }}
+                selectedValue = {this.state.selectedPayment}
+                onValueChange = {this.onValueChange.bind(this)}>
+                  <Picker.Item label="Bank Transfer" value="bank_transfer" />
+                  <Picker.Item label="Tunai" value="tunai" />
+              </Picker>
           </ListItem> 
+          
           <Separator bordered>
             <Text>Ringkasan</Text>
           </Separator>
+          
           <ListItem>
-              <Text>Jenis Produk</Text>
+            <Left><Text>Jenis Produk</Text></Left>
+            <Body><Text>: {this.props.navigation.getParam('produk', 'unknown')}</Text></Body>
           </ListItem>       
           <ListItem>
-              <Text>Durasi</Text>
+              <Left><Text>Durasi</Text></Left>
+              <Body><Text>: {this.formatDurasi(this.props.navigation.getParam('durasi', '0'))}</Text></Body>
           </ListItem>
           <ListItem>
-              <Text>Waktu</Text>
+              <Left><Text>Waktu</Text></Left>
+              <Body><Text>: {this.state.choosenTime}</Text></Body>
           </ListItem>
           <ListItem>
-              <Text>Alamat</Text>
+              <Left><Text>Alamat</Text></Left>
+              <Body><Text>: {this.state.formatedLocation}</Text></Body>
           </ListItem>
           <ListItem last>
-              <Text>Detail Pembayaran</Text>
+              <Left><Text>Detail Pembayaran</Text></Left> 
+              <Body><Text>: {this.state.selectedPayment}</Text></Body>
           </ListItem>
           
         </Content>
         <Footer>
-            {/* <Grid>
-              <Row style={{backgroundColor:'white'}}>
-                
-              </Row>
-              <Row>
-
-              </Row>
-            </Grid> */}
             <Left style={{flexDirection:'row', }}>
                 <Text style={{color:'white'}}> Total </Text>
-                <Text style={{color:'white'}}> Rp 100000 </Text>
+                <Text style={{color:'white'}}> Rp {this.state.total} </Text>
             </Left>
             <Right style={{marginRight:10}}>
                 <Button success onPress={this.pesanMassage.bind(this)}>
                     <Text>Pesan</Text>
                 </Button>
             </Right>
-            {/* <FooterTab>
-            </FooterTab> */}
         </Footer>
       </Container>
       )

@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { AsyncStorage } from "react-native";
-import { Container, Header, Content, Text, Icon, View } from "native-base";
+import { AsyncStorage, Image } from "react-native";
+import { Container, Header, Content, Text, Icon, View, Button } from "native-base";
 
 import { FlatGrid } from "react-native-super-grid";
+import { TouchableHighlight, TouchableWithoutFeedback } from "react-native-gesture-handler";
 
 const data = [
   {
@@ -43,6 +44,8 @@ const data = [
   }
 ];
 
+const imageURI = 'http://blog.travelio.com/wp-content/uploads/2018/11/FB.jpg'
+
 export default class KategoriScreen extends Component {
   static propTypes = {
     navigation: PropTypes.shape({
@@ -68,27 +71,36 @@ export default class KategoriScreen extends Component {
       <Container>
         <Header />
         <Content style={{ flexDirection: "row" }}>
+          
+          <Image 
+            source={{uri: imageURI }} 
+            resizeMode = {'stretch'}
+            style={{ height: 180, width: null, marginTop:20}}/>
+
           <Text style={{fontSize:20, marginTop:10}}> Pilih Kategori </Text>
           <FlatGrid
             itemDimension={100}
             items={data}
             renderItem={({ item }) => (
-              <View style={{
-                  borderStyle   : 'solid',
-                  borderWidth   : 1,
-                  borderColor   : 'black',
-                  height        : 100,
-                  justifyContent: 'center',
-                  alignItems    : 'center',
-                  borderRadius  : 5
-              }}>
-                {item.icon}
-                <Text onPress={this.goToDetail.bind(this, item.text)} style={{textAlign:'center'}}>
-                  {item.text}
-                </Text>
-              </View>
+              <TouchableWithoutFeedback onPress={this.goToDetail.bind(this, item.text)}>
+                <View style={{
+                    borderStyle   : 'solid',
+                    borderWidth   : 1,
+                    borderColor   : 'black',
+                    height        : 100,
+                    justifyContent: 'center',
+                    alignItems    : 'center',
+                    borderRadius  : 5
+                }}>
+                    {item.icon}
+                    <Text  style={{textAlign:'center'}}>
+                      {item.text}
+                    </Text>
+                </View>
+              </TouchableWithoutFeedback>
             )}
           />
+          <Button onPress={this.logOut.bind(this)}><Text>Logout</Text></Button>
         </Content>
       </Container>
     );
