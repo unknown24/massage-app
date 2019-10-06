@@ -1,5 +1,5 @@
 import React from 'react'
-import { Container, Text, View, Header, Content } from 'native-base'
+import { Container, Text, View, Header, Content, Button } from 'native-base'
 import Image from 'react-native-remote-svg';
 import PropTypes from "prop-types";
 
@@ -36,7 +36,10 @@ export default class PesananScreen extends React.Component{
                         <Image
                             style={{width:200, textAlign:'center'}} 
                             source={this.renderData().image} />
-                    </View>  
+                    </View> 
+                    <Button style={{justifyContent:'center'}}>
+                        <Text> Batalkan Pesanan </Text>
+                    </Button>
                 </Content>          
             </Container>
         )
