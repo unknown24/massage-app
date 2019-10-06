@@ -164,6 +164,8 @@ export default class App extends Component {
 
   async pesanMassage(){
 
+    // before fetch
+
     const lokasi =  this.state.location
     const params = {
       latitude : lokasi.lat,
@@ -185,7 +187,7 @@ export default class App extends Component {
     
     console.log(res)
     if (res.error == ""){
-      // this.props.navigation.navigate('EndStep')
+      this.props.navigation.navigate('EndStep')
     } else {
       Alert.alert('error')
     }

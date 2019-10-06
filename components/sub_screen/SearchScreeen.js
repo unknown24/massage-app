@@ -17,7 +17,7 @@ export default class SearchScreen extends React.Component{
 
         setTimeout(()=>{
             // delete pencarian dan balikan ke screen maaf
-            this.setState({tipe: 'timeout'})
+            // this.setState({tipe: 'timeout'})
         }, timeOut)
 
     }
