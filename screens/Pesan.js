@@ -163,8 +163,6 @@ export default class App extends Component {
   }
 
   async pesanMassage(){
-    this.props.navigation.navigate('EndStep')
-    return
 
     const lokasi =  this.state.location
     const params = {
@@ -185,11 +183,13 @@ export default class App extends Component {
       return
     }
     
+    console.log(res)
     if (res.error == ""){
-      this.props.navigation.navigate('EndStep')
+      // this.props.navigation.navigate('EndStep')
     } else {
       Alert.alert('error')
     }
+
   }
 
   formatDurasi(duration){

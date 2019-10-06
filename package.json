@@ -6,7 +6,9 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "eject": "expo eject",
-    "test": "jest --watchAll"
+    "testwatch": "jest --watchAll",
+    "test": "jest",
+    "updateSnap": "jest --updateSnapshot"
   },
   "jest": {
     "preset": "jest-expo"
@@ -43,10 +45,24 @@
   },
   "devDependencies": {
     "babel-preset-expo": "^6.0.0",
+    "detox": "^14.4.0",
+    "detox-expo-helpers": "^0.6.0",
     "eslint": "^6.4.0",
     "eslint-plugin-react": "^7.14.3",
+    "expo-detox-hook": "^1.0.10",
     "jest-expo": "^34.0.0",
-    "prettier": "1.18.2"
+    "prettier": "1.18.2",
+    "react-native-testing-library": "^1.11.1"
   },
-  "private": true
+  "private": true,
+  "detox": {
+    "test-runner": "jest",
+    "configurations": {
+      "ios.sim": {
+         "binaryPath": "bin/Exponent.app",
+         "type"      : "ios.simulator",
+         "name"      : "iPhone 8"
+        }
+      }
+  }
 }
