@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Platform, StyleSheet,  Modal, TouchableHighlight, Image,TimePickerAndroid, View, Alert, AsyncStorage } from 'react-native';
+import {Platform,  Modal, TimePickerAndroid, View, Alert, AsyncStorage } from 'react-native';
 import Constants from 'expo-constants';
 import * as Location from 'expo-location';
 import * as Permissions from 'expo-permissions';
@@ -9,38 +9,20 @@ import queryString from 'query-string'
 import MapPicker from '../components/MapPicker'
 import { 
     Container, 
-    Header, 
     Content, 
     Text,
     Body,
-    Title,
-    Grid,
-    Col,
-    Row,
-    Icon, 
     Left,
-    Input,
     Footer,
-    FooterTab,
     Right,
     Button,
-    Card,
-    CardItem,
-    Thumbnail,
     ListItem,
     Picker,
-    Form,
-    List,
-    Item,
-    Label,
-    CheckBox,
-    Separator,
     DatePicker,
-    Textarea
+    Textarea,
+    Separator
 } from 'native-base';
 import url from '../constants/API';
-
-const user_id = 'u1'
 
 export default class App extends Component {
     state = {
@@ -54,8 +36,7 @@ export default class App extends Component {
       total           : 0
     };
 
-    static navigationOptions = ({ navigation }) => {
-      const { params } = navigation.state;
+    static navigationOptions = () => {
       
       return {
         title: 'Pesan Pijat',
@@ -69,8 +50,8 @@ export default class App extends Component {
       total : this.state.distancePrice + this.getPriceDuration(this.durasi)
     })
   }
-
-  componentWillMount() {  
+  
+  UNSAFE_componentWillMount() {  
     if (Platform.OS === 'android' && !Constants.isDevice) {
       this.setState({
         errorMessage: 'Oops, this will not work on Sketch in an Android emulator. Try it on your device!',
@@ -140,7 +121,7 @@ export default class App extends Component {
       longitude: location.lng
     })
 
-    const  {street, city, region, postalCode, country, name} = formatLocation[0]
+    const  {street, city, region, postalCode} = formatLocation[0]
     return street + " " + city + " " + region  + " " + postalCode
 
   }
@@ -155,7 +136,6 @@ export default class App extends Component {
           if (action !== TimePickerAndroid.dismissedAction) {
             // Selected hour (0-23), minute (0-59)
             this.setState({choosenTime: hour + ':' + minute })
-
           }
         } catch ({code, message}) {
           console.warn('Cannot open time picker', message);
@@ -171,7 +151,7 @@ export default class App extends Component {
       latitude : lokasi.lat,
       longitude: lokasi.lng,
       payment : 'bank',
-      user_id
+      user_id : this.user_id
     }
     const stringified = queryString.stringify(params)
     let res
@@ -185,7 +165,6 @@ export default class App extends Component {
       return
     }
     
-    console.log(res)
     if (res.error == ""){
       this.props.navigation.navigate('EndStep')
     } else {
@@ -198,16 +177,12 @@ export default class App extends Component {
     switch (duration) {
       case "60":
         return "60 Menit"
-        break;
       case "90":
           return "90 Menit"
-          break;
       case "120":
           return "120 Menit"
-          break;
       default:
           return "0 Menit"
-        break;
     }
   }
 

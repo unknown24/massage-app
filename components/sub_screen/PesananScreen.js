@@ -24,6 +24,10 @@ export default class PesananScreen extends React.Component{
         }
     }
 
+    batalkanPesanan(){
+          _.get( this.props, "onPressBatalPesan") &&  this.props.onPressBatalPesan()
+    }
+
     render(){
         return(
             <Container>
@@ -37,7 +41,7 @@ export default class PesananScreen extends React.Component{
                             style={{width:200, textAlign:'center'}} 
                             source={this.renderData().image} />
                     </View> 
-                    <Button style={{justifyContent:'center'}}>
+                    <Button onPress={this.batalkanPesanan.bind(this)} style={{justifyContent:'center'}}>
                         <Text> Batalkan Pesanan </Text>
                     </Button>
                 </Content>          

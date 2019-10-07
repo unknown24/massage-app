@@ -21,10 +21,14 @@ export default class SearchScreen extends React.Component{
         }, timeOut)
 
     }
+
+    batalkanPesanan(){
+
+    }
     
     render(){
         return(
-            <PesananScreen tipe={this.state.tipe} />
+            <PesananScreen tipe={this.state.tipe} onPressBatalPesan={this.batalkanPesanan}/>
         )
     }
 }

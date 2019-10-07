@@ -62,6 +62,11 @@ export default class WaitingScreen extends React.Component {
       }
 
 
+    handleBatalPesan(){
+      this.props.navigate('pesan')
+    }
+
+
     render(){
         console.log(this.state.screen)
         if (this.state.screen == 'waiting_transfer') {
@@ -73,7 +78,7 @@ export default class WaitingScreen extends React.Component {
         } else if (this.state.screen == 'finish') {
             return <FinishScreen />
         } else {
-            return <SearchScreen />
+            return <SearchScreen onBatalPesan={this.handleBatalPesan} />
         } 
     }
 }
