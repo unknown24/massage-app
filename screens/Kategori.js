@@ -1,48 +1,13 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { AsyncStorage, Image } from "react-native";
-import { Container, Header, Content, Text, Icon, View, Button } from "native-base";
+import { Container, Header, Content, Text, View, Button } from "native-base";
 
 import { FlatGrid } from "react-native-super-grid";
-import { TouchableHighlight, TouchableWithoutFeedback } from "react-native-gesture-handler";
+import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 
-const data = [
-  {
-    id: "full-body",
-    icon: <Icon name="ios-flask" />,
-    text: "Full Body Massage"
-  },
-  {
-    id: "shiatshu",
-    icon: <Icon name="ios-git-compare" />,
-    text: "Shiatshu"
-  },
-  {
-    id: "reflexiogy",
-    icon: <Icon name="ios-git-merge" />,
-    text: "Reflexiogy"
-  },
-  {
-    id: "totok",
-    icon: <Icon name="ios-thunderstorm" />,
-    text: "Totok Wajah"
-  },
-  {
-    id: "lulur",
-    icon: <Icon name="ios-thermometer" />,
-    text: "Lulur"
-  },
-  {
-    id: "segment",
-    icon: <Icon name="ios-snow" />,
-    text: "Segment Massage"
-  },
-  {
-    id: "body-foot",
-    icon: <Icon name="ios-rose" />,
-    text: "Body & Foot Reflexiogy"
-  }
-];
+// get data
+import { getProduct } from '../library/api-request'
 
 const imageURI = 'http://blog.travelio.com/wp-content/uploads/2018/11/FB.jpg'
 
@@ -57,6 +22,15 @@ export default class KategoriScreen extends Component {
     header: null
   };
 
+  state = {
+    data: []
+  }
+
+  async componentDidMount(){
+    const res = await getProduct()
+    this.setState({data: res.status ? [...res.data] : []})
+  }
+
   goToDetail(title) {
     this.props.navigation.navigate("Produk", { title });
   }
@@ -70,7 +44,7 @@ export default class KategoriScreen extends Component {
     return (
       <Container>
         <Header />
-        <Content style={{ flexDirection: "row" }}>
+        <Content style={{ flexDirection: "column"}}>
           
           <Image 
             source={{uri: imageURI }} 
@@ -80,9 +54,9 @@ export default class KategoriScreen extends Component {
           <Text style={{fontSize:20, marginTop:10}}> Pilih Kategori </Text>
           <FlatGrid
             itemDimension={100}
-            items={data}
+            items={this.state.data}
             renderItem={({ item }) => (
-              <TouchableWithoutFeedback onPress={this.goToDetail.bind(this, item.text)}>
+              <TouchableWithoutFeedback onPress={this.goToDetail.bind(this, item.name)}>
                 <View style={{
                     borderStyle   : 'solid',
                     borderWidth   : 1,
@@ -94,7 +68,7 @@ export default class KategoriScreen extends Component {
                 }}>
                     {item.icon}
                     <Text  style={{textAlign:'center'}}>
-                      {item.text}
+                      {item.name}
                     </Text>
                 </View>
               </TouchableWithoutFeedback>
