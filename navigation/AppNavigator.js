@@ -20,7 +20,7 @@ const AppNavigator = createAppContainer(
       WaitingScreen
     },
     {
-      initialRouteName: "WaitingScreen"
+      initialRouteName: "Login"
     }
   )
 );

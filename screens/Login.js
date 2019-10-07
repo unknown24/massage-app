@@ -89,7 +89,7 @@ export default class Login extends Component {
               alignItems: "center"
             }}
           >
-            <Image source={require("../assets/images/app-store.png")} />
+            <Image source={require("../assets/images/logo-m.png")} />
           </View>
           <Form>
             <Item floatingLabel>
