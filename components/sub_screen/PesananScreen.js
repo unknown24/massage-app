@@ -2,7 +2,7 @@ import React from 'react'
 import { Container, Text, View, Header, Content, Button } from 'native-base'
 import Image from 'react-native-remote-svg';
 import PropTypes from "prop-types";
-
+import _ from 'lodash'
 
 const type = {
     timeout : {

@@ -27,6 +27,7 @@
     "expo-mail-composer": "^6.0.0",
     "expo-web-browser": "6.0.0",
     "firebase": "^6.5.0",
+    "lodash": "^4.17.15",
     "native-base": "^2.13.5",
     "prop-types": "^15.7.2",
     "query-string": "^6.8.3",
