@@ -17,9 +17,10 @@ const AppNavigator = createAppContainer(
       Main    : TabNavigator,
       Register: RegisterScreen,
       Login   : LoginScreen,
+      WaitingScreen
     },
     {
-      initialRouteName: "Main"
+      initialRouteName: "WaitingScreen"
     }
   )
 );

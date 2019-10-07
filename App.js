@@ -16,7 +16,7 @@ export default function App(props) {
         onError={handleLoadingError}
         onFinish={() => handleFinishLoading(setLoadingComplete)}
       />
-    );
+    )
   } else {
     return (
       <View style={styles.container}>
