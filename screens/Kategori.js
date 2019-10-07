@@ -31,8 +31,8 @@ export default class KategoriScreen extends Component {
     this.setState({data: res.status ? [...res.data] : []})
   }
 
-  goToDetail(title) {
-    this.props.navigation.navigate("Produk", { title });
+  goToDetail(title, description, image) {
+    this.props.navigation.navigate("Produk", { title, description, image });
   }
 
   async logOut() {
@@ -56,7 +56,7 @@ export default class KategoriScreen extends Component {
             itemDimension={100}
             items={this.state.data}
             renderItem={({ item }) => (
-              <TouchableWithoutFeedback onPress={this.goToDetail.bind(this, item.name)}>
+              <TouchableWithoutFeedback onPress={this.goToDetail.bind(this, item.name, item.desc, item.image)}>
                 <View style={{
                     borderStyle   : 'solid',
                     borderWidth   : 1,

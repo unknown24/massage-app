@@ -1,42 +1,22 @@
 import React, { Component } from 'react';
-import {StyleSheet, Image} from 'react-native'
+import {Image} from 'react-native'
 import { 
     Container, 
-    Header, 
     Content, 
     Text,
-    Body,
-    Title,
-    Grid,
-    Col,
-    Row,
     Icon, 
     Left,
     Footer,
     FooterTab,
-    Right,
     Button,
     Card,
     CardItem,
-    Thumbnail,
-    ListItem,
     Picker,
-    Form,
-    List,
     Item,
     Label,
     View,
-    CheckBox,
 } from 'native-base';
-import { TouchableOpacity, Switch } from 'react-native-gesture-handler';
 
-const styles = StyleSheet.create({
-    itemKategori : {
-        justifyContent: 'flex-start',
-        alignItems    : 'center',
-        height        : 100
-    },
-  });
 
 const data = {
     image      : 'https://picsum.photos/500/300',
@@ -98,36 +78,13 @@ export default class ProdukScreen extends Component {
     
     return (
       <Container>
-        {/* <Header>
-        <Left>
-            <Button transparent>
-              <Icon name='menu' />
-            </Button>
-          </Left>
-          <Body>
-            <Title>Full Body</Title>
-          </Body>
-          <Right />
-        </Header> */}
         <Content>
-        
           <Card>
-            
-            {/* <CardItem>
-              <Left>
-                <Thumbnail source={{uri:data.image}} />
-                <Body>
-                  <Text>NativeBase</Text>
-                  <Text note>GeekyAnts</Text>
-                </Body>
-              </Left>
-            </CardItem> */}
-
             <CardItem cardBody>
-              <Image source={{uri:data.image}} style={{height: 200, width: null, flex: 1}}/>
+              <Image source={{uri:this.props.navigation.getParam('image', data.image)}} style={{height: 200, width: null, flex: 1}}/>
             </CardItem>
             <CardItem>
-                <Text>{data.description}</Text>
+                <Text>{this.props.navigation.getParam('description', data.description)}</Text>
             </CardItem>
 
             <CardItem style={{flexDirection:'column', alignItems:'flex-start'}}>

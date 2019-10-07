@@ -23,7 +23,7 @@ function mapProduct(obj){
         id   : obj.id,
         icon : <Icon name={obj.icon} />,
         name : obj.name,
-        iamge: obj.image,
+        image: obj.image,
         desc : obj.description
     }
 }
