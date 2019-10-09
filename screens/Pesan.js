@@ -159,16 +159,17 @@ export default class App extends Component {
       res = await fetch( url + 'massage-app-server/order.php?' + stringified)
       .then(res=>res.text())
       res = JSON.parse(res)
+      console.log({res})
     } catch (error) {
-      console.log(error)
+      console.log({error})
       Alert.alert('Error In Server.')
       return
     }
-    
+
     if (res.error == ""){
       this.props.navigation.navigate('EndStep')
     } else {
-      Alert.alert('error')
+      Alert.alert(res.error)
     }
 
   }

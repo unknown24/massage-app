@@ -23,7 +23,7 @@ export default class SearchScreen extends React.Component{
     }
 
     batalkanPesanan(){
-
+        this.props.onBatalPesan()
     }
     
     render(){
