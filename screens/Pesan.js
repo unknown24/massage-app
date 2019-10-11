@@ -150,7 +150,7 @@ export default class App extends Component {
     const params = {
       latitude : lokasi.lat,
       longitude: lokasi.lng,
-      payment : 'bank',
+      payment : 'tunai',
       user_id : this.user_id
     }
     const stringified = queryString.stringify(params)
@@ -159,6 +159,7 @@ export default class App extends Component {
       res = await fetch( url + 'massage-app-server/order.php?' + stringified)
       .then(res=>res.text())
       res = JSON.parse(res)
+      res.error = ""
       console.log({res})
     } catch (error) {
       console.log({error})
@@ -169,7 +170,7 @@ export default class App extends Component {
     if (res.error == ""){
       this.props.navigation.navigate('EndStep')
     } else {
-      Alert.alert(res.error)
+      // Alert.alert(res.error)
     }
 
   }
