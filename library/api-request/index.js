@@ -28,9 +28,39 @@ function mapProduct(obj){
     }
 }
 
+
+
+
+function loadPricingProduct(id){
+    let resText
+    try {
+        return fetch('http://apis.blindmassage.id/massage-app-server/apis/client/getPricingProduct.php?pid=' + id)
+            .then(res => {
+                resText = res.text()
+                return resText })
+            .then(res => JSON.parse(res))
+    } catch (error) {
+        return {
+            status : false,
+            message: error + resText 
+        }
+    }   
+}
+
+
+
 export  function getProduct(){
     return loadProduct().then(data => ({
         status: data.status,
         data  : data.data.map(mapProduct)
     }) )
 }
+
+
+export  function getProductPricing(id){
+    return loadPricingProduct(id).then(respon => ({
+        status: respon.status,
+        data  : respon.data
+    }) )
+}
+

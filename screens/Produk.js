@@ -16,6 +16,8 @@ import {
     Label,
     View,
 } from 'native-base';
+import { getProductPricing } from '../library/api-request';
+import _ from 'lodash';
 
 
 const data = {
@@ -34,8 +36,21 @@ export default class ProdukScreen extends Component {
     };
 
     state = {
-        selected: '60',
-        price : "Rp 100.000"
+        current_price   : {tes:0},
+        options         : {}
+    }
+
+
+    async componentDidMount(){
+      const id = this.props.navigation.getParam('id', null)
+      const respon = await getProductPricing(id)
+      _.mapValues(respon.data, (val)=> val[0].price)
+      
+      this.setState({
+        options : respon.status ? respon.data : {},
+        current_price: _.mapValues(respon.data, (val)=> val[0].price )
+      })
+
     }
 
     handlePesan(){
@@ -46,36 +61,17 @@ export default class ProdukScreen extends Component {
         })
     }
 
-    handleChangeDuration(value){
-      let price = 0
-      switch (value) {
-        case "60":
-          price = "Rp 100.000"
-          break;
-        
-        case "90":
-          price = "Rp 120.000"
-        break;
+    hanldeChangeOption(key, value){
+      const temp = Object.assign({},this.state)
 
-        case "120":
-          price = "Rp 150.000"
-        break;
-      
-        default:
-            price = "Rp 0"
-          break;
-      }
-      
-      this.setState({
-        selected:value,
-        price 
-      })
+      this.setState(
+        _.set(temp, `current_price.${key}`, value )
+      )
     }
 
 
   render() {
 
-    
     return (
       <Container>
         <Content>
@@ -86,39 +82,31 @@ export default class ProdukScreen extends Component {
             <CardItem>
                 <Text>{this.props.navigation.getParam('description', data.description)}</Text>
             </CardItem>
-
-            <CardItem style={{flexDirection:'column', alignItems:'flex-start'}}>
-                <Text>Jenis Kelamin</Text>
-                <View style={{flexDirection:'row', alignItems:'center'}}>
-                    <Icon name="ios-man" />
-                    <Text> Laki - Laki </Text>
-                </View>
-            </CardItem>
             
-            <CardItem style={{flexDirection:'column', alignItems:'flex-start'}}>
-                <Label > Pilih Durasi </Label>
-                <Item picker>                
-                    <Picker
-                        mode                 = "dropdown"
-                        iosIcon              = {<Icon name="arrow-down" />}
-                        placeholder          = "Select your SIM"
-                        placeholderStyle     = {{ color: "#bfc6ea" }}
-                        placeholderIconColor = "#007aff"
-                        style                = {{ width: undefined }}
-                        selectedValue        = {this.state.selected}
-                        onValueChange        = {this.handleChangeDuration.bind(this)}
-                        >
-                            <Picker.Item label="60 Menit" value="60" />
-                            <Picker.Item label="90 Menit" value="90" />
-                            <Picker.Item label="120 Menit" value="120" />
-                    </Picker>    
-                </Item>
-            </CardItem>            
-            <CardItem>
-                <Left>
-                  <Text>Harga : </Text><Text>{this.state.price}</Text>
-                </Left>         
-            </CardItem>
+           {
+            _.map(this.state.options, function(value, key) {
+              return (
+                <View key={key} style={{flexDirection:'column', marginLeft:10, marginRight:10, marginBottom:20}}>
+                  <Label>{key}</Label>
+                  <Picker
+                      mode                 = "dropdown"
+                      iosIcon              = {<Icon name="arrow-down" />}
+                      placeholder          = "Select your SIM"
+                      placeholderStyle     = {{ color: "#bfc6ea" }}
+                      placeholderIconColor = "#007aff"
+                      style                = {{ width: undefined }} 
+                      selectedValue        = {_.get(this.state.current_price , key)}
+                      onValueChange        = {this.hanldeChangeOption.bind(this,key)}
+                      >
+                      {value.map(val => <Picker.Item key={val.id} label={val.name} value={val.price} /> )} 
+                  </Picker>
+                  <View style={{flexDirection:'row'}}>
+                    <Text> Harga : </Text><Text> {_.get(this.state.current_price , key)} </Text>
+                  </View>
+                </View> 
+              )}.bind(this))
+            }
+            
           </Card>            
         </Content>
         <Footer>
