@@ -54,8 +54,8 @@ export default class ProdukScreen extends Component {
     handlePesan(){
 
         this.props.navigation.navigate('Pesan', {
-          produk: this.props.navigation.getParam('title', 'unknown'),
-          durasi:this.state.selected
+          produk : this.props.navigation.getParam('title', 'unknown'),
+          options: this.state.current_price,
         })
     }
 

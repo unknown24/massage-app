@@ -23,6 +23,8 @@ import {
     Separator
 } from 'native-base';
 import url from '../constants/API';
+import _ from 'lodash'
+
 
 export default class App extends Component {
     state = {
@@ -32,7 +34,6 @@ export default class App extends Component {
       choosenTime     : '',
       formatedLocation: '',
       selectedPayment : 'tunai',
-      distancePrice   : 0,
       total           : 0
     };
 
@@ -45,9 +46,15 @@ export default class App extends Component {
 
   async componentDidMount(){
     this.user_id = await AsyncStorage.getItem("user_id")
-    this.durasi = this.props.navigation.getParam('durasi', '0')
+    this.options = this.props.navigation.getParam('options', {tes:0})
+    
+    // object reduce total
+    this.total_param =_.reduce(this.options, function(result, value, key) {
+      return result + parseInt(value)
+    }, 0);
+
     this.setState({
-      total : this.state.distancePrice + this.getPriceDuration(this.durasi)
+      total : this.total_param
     })
   }
   
@@ -72,9 +79,6 @@ export default class App extends Component {
       let location = await Location.getCurrentPositionAsync({});
       const formated = await this.formatLocation({lat:location.coords.latitude, lng:location.coords.longitude})
 
-      if (!this.durasi){
-        this.durasi = this.props.navigation.getParam('durasi', '0')
-      }
 
       this.setState({ 
         location: {
@@ -82,8 +86,7 @@ export default class App extends Component {
           lng:location.coords.longitude
         },
         formatedLocation: formated,
-        distancePrice   : this.getRangeDuration(),
-        total           : this.getRangeDuration() + this.getPriceDuration(this.durasi),
+        total           : this.total_param,
       });
 
     };
@@ -175,52 +178,12 @@ export default class App extends Component {
 
   }
 
-  formatDurasi(duration){
-    switch (duration) {
-      case "60":
-        return "60 Menit"
-      case "90":
-          return "90 Menit"
-      case "120":
-          return "120 Menit"
-      default:
-          return "0 Menit"
-    }
-  }
-
   handleChangeAlamat(text){
     this.setState({
       formatedLocation: text
     })
   }
 
-
-  getPriceDuration(value){
-    let price = 0
-    switch (value) {
-      case "60":
-        price = 100000
-        break;
-      
-      case "90":
-        price = 120000
-      break;
-
-      case "120":
-        price = 150000
-      break;
-    
-      default:
-          price = 0
-        break;
-    }
-    
-    return price
-  }
-
-  getRangeDuration(){
-    return 20000
-  }
     
   render() {
       return (
@@ -279,9 +242,6 @@ export default class App extends Component {
               <Button onPress={() => {this.setModalVisible(true)}} style={{justifyContent:'center', alignSelf:'stretch'}}>
                 <Text> Pilih Alamat </Text>
               </Button>
-              <View style={{justifyContent:'flex-start'}}>
-                <Text>Harga Jarak :  Rp {this.state.distancePrice}</Text>
-              </View>
             </View>
           </ListItem>
           
@@ -311,7 +271,7 @@ export default class App extends Component {
           </ListItem>       
           <ListItem>
               <Left><Text>Durasi</Text></Left>
-              <Body><Text>: {this.formatDurasi(this.props.navigation.getParam('durasi', '0'))}</Text></Body>
+              <Body><Text>: </Text></Body>
           </ListItem>
           <ListItem>
               <Left><Text>Waktu</Text></Left>
