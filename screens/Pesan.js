@@ -156,6 +156,7 @@ export default class App extends Component {
       payment : 'tunai',
       user_id : this.user_id
     }
+
     const stringified = queryString.stringify(params)
     let res
     try {

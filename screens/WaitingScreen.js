@@ -8,13 +8,15 @@ import OnTheWayScreen from '../components/sub_screen/OnTheWayScreen'
 import DoingScreen from '../components/sub_screen/DoingScreen'
 import FinishScreen from '../components/sub_screen/FinishScreen'
 import { getLastString } from '../library/String'
+import { Toast } from 'native-base';
 
 const firebase = initApp()
 const dbh      = firebase.firestore();
 
 export default class WaitingScreen extends React.Component {
     state = {
-        screen : 'search'// waiting_transfer , on_the_way , doing, finish
+        screen        : 'search',   // waiting_transfer , on_the_way , doing, finish
+        currentPesanan: null
     }
 
     static navigationOptions = {
@@ -63,12 +65,16 @@ export default class WaitingScreen extends React.Component {
 
 
     handleBatalPesan(){
-      this.props.navigate('pesan')
+      fetch('http://apis.blindmassage.id/massage-app-server/apis/client/batalkanPesanan.php?id_pesanan='+ this.state.currentPesanan)
+        .then(res => res.json())
+        .then(res => {
+          console.log(res)
+          this.props.navigation.navigate('Pesan')
+        })
     }
 
 
     render(){
-        console.log(this.state.screen)
         if (this.state.screen == 'waiting_transfer') {
             return <WaitTransferScreen />
         } else if (this.state.screen == 'on_the_way') {
@@ -78,7 +84,7 @@ export default class WaitingScreen extends React.Component {
         } else if (this.state.screen == 'finish') {
             return <FinishScreen />
         } else {
-            return <SearchScreen onBatalPesan={this.handleBatalPesan} />
+            return <SearchScreen onBatalPesan={this.handleBatalPesan.bind(this)} />
         } 
     }
 }

@@ -22,13 +22,10 @@ export default class SearchScreen extends React.Component{
 
     }
 
-    batalkanPesanan(){
-        this.props.onBatalPesan()
-    }
     
     render(){
         return(
-            <PesananScreen tipe={this.state.tipe} onPressBatalPesan={this.batalkanPesanan}/>
+            <PesananScreen tipe={this.state.tipe} onPressBatalPesan={this.props.onBatalPesan}/>
         )
     }
 }
