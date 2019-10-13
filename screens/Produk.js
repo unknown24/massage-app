@@ -5,14 +5,12 @@ import {
     Content, 
     Text,
     Icon, 
-    Left,
     Footer,
     FooterTab,
     Button,
     Card,
     CardItem,
     Picker,
-    Item,
     Label,
     View,
 } from 'native-base';
@@ -106,7 +104,7 @@ export default class ProdukScreen extends Component {
                 </View> 
               )}.bind(this))
             }
-            
+
           </Card>            
         </Content>
         <Footer>
