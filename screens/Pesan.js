@@ -20,7 +20,8 @@ import {
     Picker,
     DatePicker,
     Textarea,
-    Separator
+    Separator,
+    Toast
 } from 'native-base';
 import url from '../constants/API';
 import _ from 'lodash'
@@ -172,8 +173,16 @@ export default class App extends Component {
     }
 
     if (res.error == ""){
-      this.props.navigation.navigate('EndStep')
+      console.log(res)
+
+      let idPesanan = res.addPesanan.result.name.split('/')
+      idPesanan = idPesanan[idPesanan.length -1]
+      this.props.navigation.navigate('EndStep', {idPesanan })
     } else {
+      Toast.show({
+        text: JSON.stringify(res),
+        buttonText: 'Okay'
+      })
       // Alert.alert(res.error)
     }
 
