@@ -109,6 +109,7 @@ class FullScreen extends React.Component {
 
     static navigationOptions = {
       header: null,
+      tabBarVisible: false,
     };
 
     render() {
