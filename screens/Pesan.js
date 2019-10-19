@@ -1,54 +1,65 @@
-import React, {Component} from 'react';
-import {Platform,  Modal, TimePickerAndroid, View, Alert, AsyncStorage } from 'react-native';
+import React, { Component } from 'react';
+import {
+  Platform, Modal, TimePickerAndroid, View, Alert, AsyncStorage,
+} from 'react-native';
 import Constants from 'expo-constants';
 import * as Location from 'expo-location';
 import * as Permissions from 'expo-permissions';
-
-
-import queryString from 'query-string'
-import MapPicker from '../components/MapPicker'
-import { 
-    Container, 
-    Content, 
-    Text,
-    Body,
-    Left,
-    Footer,
-    Right,
-    Button,
-    ListItem,
-    Picker,
-    DatePicker,
-    Textarea,
-    Separator,
-    Toast
+import _ from 'lodash';
+import {
+  Container,
+  Content,
+  Text,
+  Body,
+  Left,
+  Footer,
+  Right,
+  Button,
+  ListItem,
+  Picker,
+  DatePicker,
+  Textarea,
+  Separator,
+  Toast,
 } from 'native-base';
+import queryString from 'query-string';
+import MapPicker from '../components/MapPicker';
 import url from '../constants/API';
-import _ from 'lodash'
 
 
 export default class App extends Component {
-    state = {
-      modalVisible    : false,
-      location        : null,
-      chosenDate      : '',
-      choosenTime     : '',
+  static navigationOptions = () => ({
+    title: 'Pesan Pijat',
+  });
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      modalVisible: false,
+      location: null,
+      chosenDate: '',
+      choosenTime: '',
       formatedLocation: '',
-      selectedPayment : 'tunai',
-      total           : 0
+      selectedPayment: 'tunai',
+      total: 0,
     };
+  }
 
-    static navigationOptions = () => {
-      
-      return {
-        title: 'Pesan Pijat',
-      }
-  };
+  UNSAFE_componentWillMount() { // eslint-disable-line
+    if (Platform.OS === 'android' && !Constants.isDevice) {
+      Alert.alert('Not In Device');
+    } else {
+      this.getLocationAsync();
+    }
+  }
 
-  async componentDidMount(){
-    this.user_id = await AsyncStorage.getItem("user_id")
-    this.options = this.props.navigation.getParam('options', {tes:0})
-    
+  /* eslint-disable */
+  
+  async componentDidMount() {
+    this.user_id = await AsyncStorage.getItem('user_id');
+    const { navigation } = this.props
+    this.options = navigation.getParam('options', {tes:0})
+
     // object reduce total
     this.total_param =_.reduce(this.options, function(result, value, key) {
       return result + parseInt(value)
@@ -58,18 +69,8 @@ export default class App extends Component {
       total : this.total_param
     })
   }
-  
-  UNSAFE_componentWillMount() {  
-    if (Platform.OS === 'android' && !Constants.isDevice) {
-      this.setState({
-        errorMessage: 'Oops, this will not work on Sketch in an Android emulator. Try it on your device!',
-      });
-    } else {
-      this._getLocationAsync();
-    }
-  }
 
-    _getLocationAsync = async () => {
+    getLocationAsync = async () => {
       let { status } = await Permissions.askAsync(Permissions.LOCATION);
       if (status !== 'granted') {
         this.setState({
@@ -147,7 +148,6 @@ export default class App extends Component {
   }
 
   async pesanMassage(){
-
     // before fetch
 
     const lokasi =  this.state.location
@@ -157,6 +157,9 @@ export default class App extends Component {
       payment : 'tunai',
       user_id : this.user_id
     }
+
+    // this.props.onPesan(params)
+    // return
 
     const stringified = queryString.stringify(params)
     let res
@@ -183,9 +186,7 @@ export default class App extends Component {
         text: JSON.stringify(res),
         buttonText: 'Okay'
       })
-      // Alert.alert(res.error)
     }
-
   }
 
   handleChangeAlamat(text){

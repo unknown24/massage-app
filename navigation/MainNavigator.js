@@ -1,11 +1,15 @@
 // eslint-disable-next-line no-unused-vars
-import React from "react";
-import { createStackNavigator } from "react-navigation";
+import React from 'react';
+import { createStackNavigator } from 'react-navigation';
 
-import KategoriScreen from "../screens/Kategori";
-import ProdukScreen from "../screens/Produk";
-import PesanScreen from "../screens/Pesan";
-import WaitingScreen from "../screens/WaitingScreen";
+import { SCREEN } from '../library/constant';
+
+
+import KategoriScreen from '../screens/Kategori';
+import ProdukScreen from '../screens/Produk';
+import PesanScreen from '../screens/Pesan';
+import WaitingScreen from '../screens/WaitingScreen';
+import MapShowScreen from '../screens/redux-integration/FullScreenTes';
 
 const MainStack = createStackNavigator(
   {
@@ -13,14 +17,15 @@ const MainStack = createStackNavigator(
     Produk: ProdukScreen,
     Pesan: PesanScreen,
     Konfirmasi: KategoriScreen,
-    EndStep: WaitingScreen
+    EndStep: WaitingScreen,
+    [SCREEN.SHOW_LOCATION]: MapShowScreen,
   },
   {
-    initialRouteName: "Kategori",
+    initialRouteName: SCREEN.SHOW_LOCATION,
     navigationOptions: {
-      header: null
-    }
-  }
+      header: null,
+    },
+  },
 );
 
 export default MainStack;

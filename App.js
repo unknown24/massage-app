@@ -1,44 +1,42 @@
-import { AppLoading } from "expo";
-import { Asset } from "expo-asset";
-import * as Font from "expo-font";
-import React, { useState } from "react";
-import { Platform, StatusBar, StyleSheet, View } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
-import AppNavigator from "./navigation/AppNavigator";
+import { AppLoading } from 'expo';
+import { Asset } from 'expo-asset';
+import * as Font from 'expo-font';
+import React, { useState } from 'react';
+import {
+  Platform, StatusBar, StyleSheet, View,
+} from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
+import PropTypes from 'prop-types';
 
-export default function App(props) {
-  const [isLoadingComplete, setLoadingComplete] = useState(false);
+import { Provider } from 'react-redux';
+import { createStore, applyMiddleware } from 'redux';
+import thunk from 'redux-thunk';
+import stores from './src/reducers';
 
-  if (!isLoadingComplete && !props.skipLoadingScreen) {
-    return (
-      <AppLoading
-        startAsync={loadResourcesAsync}
-        onError={handleLoadingError}
-        onFinish={() => handleFinishLoading(setLoadingComplete)}
-      />
-    )
-  } else {
-    return (
-      <View style={styles.container}>
-        {Platform.OS === "ios" && <StatusBar barStyle="default" />}
-        <AppNavigator />
-      </View>
-    );
-  }
-}
+import AppNavigator from './navigation/AppNavigator';
+import NavigationService from './src/navigations/NavigationService';
+
+const roboto = require('native-base/Fonts/Roboto.ttf');
+const robotoMedium = require('native-base/Fonts/Roboto_medium.ttf');
+const robotDev = require('./assets/images/robot-dev.png');
+const robotProd = require('./assets/images/robot-prod.png');
+const spaceMono = require('./assets/fonts/SpaceMono-Regular.ttf');
+
+
+const store = createStore(stores, applyMiddleware(thunk));
 
 async function loadResourcesAsync() {
   await Promise.all([
     Asset.loadAsync([
-      require("./assets/images/robot-dev.png"),
-      require("./assets/images/robot-prod.png")
+      robotDev,
+      robotProd,
     ]),
     Font.loadAsync({
       ...Ionicons.font,
-      "space-mono": require("./assets/fonts/SpaceMono-Regular.ttf"),
-      Roboto: require("native-base/Fonts/Roboto.ttf"),
-      Roboto_medium: require("native-base/Fonts/Roboto_medium.ttf")
-    })
+      'space-mono': spaceMono,
+      Roboto: roboto,
+      Roboto_medium: robotoMedium,
+    }),
   ]);
 }
 
@@ -53,6 +51,42 @@ function handleFinishLoading(setLoadingComplete) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff"
-  }
+    backgroundColor: '#fff',
+  },
 });
+
+export default function App(props) {
+  const [isLoadingComplete, setLoadingComplete] = useState(false);
+  const { skipLoadingScreen } = props;
+
+  if (!isLoadingComplete && !skipLoadingScreen) {
+    return (
+      <AppLoading
+        startAsync={loadResourcesAsync}
+        onError={handleLoadingError}
+        onFinish={() => handleFinishLoading(setLoadingComplete)}
+      />
+    );
+  }
+
+  return (
+    <Provider store={store}>
+      <View style={styles.container}>
+        {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
+        <AppNavigator
+          ref={(navigatorRef) => {
+            NavigationService.setTopLevelNavigator(navigatorRef);
+          }}
+        />
+      </View>
+    </Provider>
+  );
+}
+
+App.propTypes = {
+  skipLoadingScreen: PropTypes.bool,
+};
+
+App.defaultProps = {
+  skipLoadingScreen: false,
+};
