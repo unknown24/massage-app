@@ -10,6 +10,7 @@ import {
   PESAN,
   PESAN_FAIL,
   PESAN_SUCCESS,
+  GOTO_CARI_TERAPIS,
 } from './ActionTypes';
 
 
@@ -26,6 +27,13 @@ function gotoShowLocation(res) {
   return {
     type: PESAN_SUCCESS,
     payload: res,
+  };
+}
+
+function gotoCariTerapis() {
+  NavigationService.navigate(SCREEN.SHOW_LOCATION);
+  return {
+    type: GOTO_CARI_TERAPIS,
   };
 }
 
@@ -47,8 +55,8 @@ export function pesan(param) {
     dispatch({ type: PESAN });
     const paramz = queryString.stringify(param);
     requestGET(`${url}massage-app-server/order.php?${paramz}`)
-      .then((res) => {
-        dispatch(gotoShowLocation(res));
+      .then(() => {
+        dispatch(gotoCariTerapis());
       })
       .catch((error) => {
         dispatch({
@@ -59,7 +67,7 @@ export function pesan(param) {
   };
 }
 
-export default function batalkanPesanan() {
+export function batalkanPesanan() {
   return (dispatch) => {
     dispatch({ type: BATALKAN_PESANAN_USER });
 

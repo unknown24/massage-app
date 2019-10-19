@@ -116,7 +116,7 @@ class FullScreen extends React.Component {
       const { location, ready } = this.state;
       const { height } = Dimensions.get('window');
       const {
-        layanan, type, kontak, posisi, onBatakan,
+        layanan, type, kontak, posisi, onBatakan, nama, total, hargaJarak, jarak,
       } = this.props;
 
       return (
@@ -158,8 +158,12 @@ class FullScreen extends React.Component {
                             <Thumbnail source={{ uri: 'https://picsum.photos/200/300' }} />
                           </Left>
                           <Body>
-                            <Text>Agus Supriono </Text>
-                            <Text note numberOfLines={1}>Rp 140.000 (+50.000 / 1500m)</Text>
+                            <Text>
+                              {nama}
+                            </Text>
+                            <Text note numberOfLines={1}>
+                              {`Rp ${total} (+${hargaJarak}/${jarak})`}
+                            </Text>
                           </Body>
                         </ListItem>
                         <ListItem>
@@ -217,8 +221,13 @@ FullScreen.propTypes = {
   layanan: PropTypes.arrayOf(PropTypes.string),
   type: PropTypes.oneOf(['terapis', 'client']),
   kontak: PropTypes.string,
+  nama: PropTypes.string,
+  total: PropTypes.string,
+  hargaJarak: PropTypes.string,
+  jarak: PropTypes.string,
   posisi: PropTypes.string,
   onBatakan: PropTypes.func,
+
 };
 
 FullScreen.defaultProps = {
@@ -227,6 +236,10 @@ FullScreen.defaultProps = {
   kontak: '089776445332',
   posisi: 'Jl gagak no 7 sukajadi sumedang selatan bandung',
   onBatakan: (e) => console.log(e),
+  jarak: '1000m',
+  hargaJarak: '2000',
+  total: '100.000',
+  nama: 'Agus Sutopo',
 };
 
 export default FullScreen;

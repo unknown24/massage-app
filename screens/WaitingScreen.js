@@ -103,8 +103,8 @@ export default class WaitingScreen extends React.Component {
         } else {
             return (
               <View>
-                <Button onPress={this.deleteAllPesanan.bind(this)}><Text> Delete All </Text></Button>
                 <SearchScreen onBatalPesan={this.handleBatalPesan.bind(this)} />
+                <Button onPress={this.deleteAllPesanan.bind(this)}><Text> Delete All </Text></Button>
               </View>
             ) 
         } 

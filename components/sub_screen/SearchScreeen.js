@@ -1,10 +1,9 @@
 import React from 'react'
-import PesananScreen from './PesananScreen'
+import PesananScreen from '../../screens/SearchScreen'
 
 
 export default class SearchScreen extends React.Component{
 
-   
     state = {
         tipe : 'search'
     }

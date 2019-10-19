@@ -78,12 +78,7 @@ SettingsStack.navigationOptions = {
 SettingsStack.path = '';
 
 const tabNavigator = createBottomTabNavigator({
-  HomeStack: {
-    screen: HomeStack,
-    navigationOptions: {
-      tabBarVisible: false,
-    },
-  },
+  HomeStack,
   SettingsStack,
 });
 

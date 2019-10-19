@@ -7,7 +7,8 @@ import RegisterScreen from '../screens/Register';
 import LoginScreen from '../screens/Login';
 
 // debug screen
-import WaitingScreen from '../screens/WaitingScreen'
+import SearcScreen from '../components/sub_screen/SearchScreeen';
+import { SCREEN } from '../constants/Screen';
 
 
 const AppNavigator = createAppContainer(
@@ -16,12 +17,13 @@ const AppNavigator = createAppContainer(
       Main: TabNavigator,
       Register: RegisterScreen,
       Login: LoginScreen,
-      WaitingScreen
+      [SCREEN.CARI_TERAPIS]: SearcScreen,
+
     },
     {
-      initialRouteName: "Login"
-    }
-  )
+      initialRouteName: SCREEN.CARI_TERAPIS,
+    },
+  ),
 );
 
 export default AppNavigator;
