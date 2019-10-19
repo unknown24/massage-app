@@ -7,7 +7,7 @@ import { SCREEN } from '../constants/Screen';
 
 import KategoriScreen from '../screens/Kategori';
 import ProdukScreen from '../screens/Produk';
-import PesanScreen from '../screens/Pesan';
+import PesanScreen from '../screens/redux-integration/PesanTes';
 import WaitingScreen from '../screens/WaitingScreen';
 import MapShowScreen from '../screens/redux-integration/FullScreenTes';
 
@@ -15,13 +15,13 @@ const MainStack = createStackNavigator(
   {
     Kategori: KategoriScreen,
     Produk: ProdukScreen,
-    Pesan: PesanScreen,
     Konfirmasi: KategoriScreen,
     EndStep: WaitingScreen,
+    [SCREEN.PESAN]: PesanScreen,
     [SCREEN.SHOW_LOCATION]: MapShowScreen,
   },
   {
-    initialRouteName: SCREEN.SHOW_LOCATION,
+    initialRouteName: 'Kategori',
     navigationOptions: {
       header: null,
     },

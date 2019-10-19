@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { SCREEN } from '../constants/Screen';
 import {Image} from 'react-native'
 import { 
     Container, 
@@ -53,7 +54,7 @@ export default class ProdukScreen extends Component {
 
     handlePesan(){
 
-        this.props.navigation.navigate('Pesan', {
+        this.props.navigation.navigate(SCREEN.PESAN, {
           produk : this.props.navigation.getParam('title', 'unknown'),
           options: this.state.current_price,
         })

@@ -11,6 +11,8 @@ import PropTypes from 'prop-types';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
+import logger from 'redux-logger';
+
 import stores from './src/reducers';
 
 import AppNavigator from './navigation/AppNavigator';
@@ -22,8 +24,8 @@ const robotDev = require('./assets/images/robot-dev.png');
 const robotProd = require('./assets/images/robot-prod.png');
 const spaceMono = require('./assets/fonts/SpaceMono-Regular.ttf');
 
-
-const store = createStore(stores, applyMiddleware(thunk));
+const middlewares = [thunk, logger];
+const store = createStore(stores, applyMiddleware(...middlewares));
 
 async function loadResourcesAsync() {
   await Promise.all([

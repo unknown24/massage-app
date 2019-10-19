@@ -1,6 +1,7 @@
 import React from 'react';
 import initApp from '../library/firebase/firebase';
 import { AsyncStorage, Image } from "react-native";
+import { SCREEN } from '../constants/Screen';
 
 import SearchScreen from '../components/sub_screen/SearchScreeen'
 import WaitTransferScreen from '../components/sub_screen/WaitTransferScreen'
@@ -84,7 +85,7 @@ export default class WaitingScreen extends React.Component {
               buttonText: 'Okay'
             })
           } else {
-            this.props.navigation.navigate('Pesan')
+            this.props.navigation.navigate(SCREEN.PESAN)
           }
         })
     }

@@ -158,8 +158,10 @@ export default class App extends Component {
       user_id : this.user_id
     }
 
-    // this.props.onPesan(params)
-    // return
+    if ('onPesan' in this.props) {
+      this.props.onPesan(params)
+    }
+    return
 
     const stringified = queryString.stringify(params)
     let res
