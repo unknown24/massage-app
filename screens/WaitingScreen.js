@@ -8,7 +8,7 @@ import OnTheWayScreen from '../components/sub_screen/OnTheWayScreen'
 import DoingScreen from '../components/sub_screen/DoingScreen'
 import FinishScreen from '../components/sub_screen/FinishScreen'
 import { getLastString } from '../library/String'
-import { Toast } from 'native-base';
+import { Toast, Button, View, Text } from 'native-base';
 
 const firebase = initApp()
 const dbh      = firebase.firestore();
@@ -62,13 +62,21 @@ export default class WaitingScreen extends React.Component {
         })
   
       }
-
+    
+    deleteAllPesanan(){
+      dbh.collection('messages').getDocuments().then((snapshot) => {
+        for (var ds in snapshot.documents){
+          ds.reference.delete();
+        }
+      })
+    }
 
     handleBatalPesan(){
-      fetch('http://apis.blindmassage.id/massage-app-server/apis/client/batalkanPesanan.php?id_pesanan='+ this.state.currentPesanan)
+
+      fetch('http://apis.blindmassage.id/massage-app-server/apis/client/batalkanPesanan.php?id_pesanan='+ this.props.navigation.getParam('idPesanan', null))
         .then(res => res.json())
         .then(res => {
-          console.log(this.state.currentPesanan ,res)
+          console.log(this.props.navigation.getParam('idPesanan', null) ,res)
 
           if (res.code == 400) {
             Toast.show({
@@ -92,7 +100,12 @@ export default class WaitingScreen extends React.Component {
         } else if (this.state.screen == 'finish') {
             return <FinishScreen />
         } else {
-            return <SearchScreen onBatalPesan={this.handleBatalPesan.bind(this)} />
+            return (
+              <View>
+                <Button onPress={this.deleteAllPesanan.bind(this)}><Text> Delete All </Text></Button>
+                <SearchScreen onBatalPesan={this.handleBatalPesan.bind(this)} />
+              </View>
+            ) 
         } 
     }
 }
