@@ -1,21 +1,21 @@
 import React from 'react';
 import {
-  Container, Text, View, Header, Content, Button,
+  Container, Text, Header, Content, Button, Footer, FooterTab,
 } from 'native-base';
 import Image from 'react-native-remote-svg';
 import PropTypes from 'prop-types';
 
-const transfer = require('../assets/images/money-transfer.svg');
-const worker = require('../assets/images/worker.svg');
+const transferImage = require('../assets/images/money-transfer.svg');
+const workerImage = require('../assets/images/worker.svg');
 
 const type = {
   timeout: {
     label: 'Maaf tidak ada pemijat di sekitar anda',
-    image: transfer,
+    image: transferImage,
   },
   search: {
     label: 'Tunggu sistem sedang mencari pemijat',
-    image: worker,
+    image: workerImage,
   },
 };
 
@@ -37,23 +37,22 @@ export default class PesananScreen extends React.Component {
     return (
       <Container>
         <Header />
-        <Content>
-          <Text style={{ textAlign: 'center' }}>
+        <Content contentContainerStyle={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
+          <Text>
             { this.renderData().label }
           </Text>
-          <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-            <Image
-              style={{ width: 200, textAlign: 'center' }}
-              source={this.renderData().image}
-            />
-          </View>
-          <Button
-            onPress={this.batalkanPesanan}
-            style={{ justifyContent: 'center' }}
-          >
-            <Text> Batalkan Pesanan </Text>
-          </Button>
+          <Image
+            style={{ width: 200, height: 200, marginTop: 20 }}
+            source={this.renderData().image}
+          />
         </Content>
+        <Footer>
+          <FooterTab>
+            <Button full onPress={this.batalkanPesanan}>
+              <Text>Batalkan Pesanan</Text>
+            </Button>
+          </FooterTab>
+        </Footer>
       </Container>
     );
   }

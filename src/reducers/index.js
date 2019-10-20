@@ -1,4 +1,7 @@
 import { combineReducers } from 'redux';
+import update from 'immutability-helper';
+import extractResponPesan from '../../library/ExtractRespons';
+
 import {
   BATALKAN_PESANAN_USER_SUCCESS,
   PESAN,
@@ -7,7 +10,12 @@ import {
 } from '../actions/ActionTypes';
 
 const initialState = {
-  data: [],
+  current_id_pesanan: null,
+  current_state_pesanan: null,
+  screens: {},
+  raw_data: {
+    pesan: [],
+  },
 };
 
 function todoApp(state = initialState, action) {
@@ -22,6 +30,7 @@ function todoApp(state = initialState, action) {
   }
 }
 
+
 function pesanScreen(state = {}, action) {
   switch (action.type) {
     case PESAN:
@@ -30,11 +39,11 @@ function pesanScreen(state = {}, action) {
         loader: true,
       };
     case PESAN_SUCCESS:
-      return {
-        ...state,
-        loader: false,
-        data: action.payload,
-      };
+      return update(state, {
+        current_id_pesanan: { $set: extractResponPesan(action.payload) },
+        current_state_pesanan: { $set: 'search' },
+        raw_data: { pesan: { $set: action.payload } },
+      });
     case PESAN_FAIL:
       return {
         ...state,

@@ -1,23 +1,24 @@
 import queryString from 'query-string';
 import NavigationService from '../navigations/NavigationService';
 import url from '../../constants/API';
-import { SCREEN } from '../../constants/Screen';
 
+import { SCREEN } from '../../constants/Screen';
 import {
   BATALKAN_PESANAN_USER,
   BATALKAN_PESANAN_USER_FAIL,
-  BATALKAN_PESANAN_USER_SUCCESS,
   PESAN,
   PESAN_FAIL,
   PESAN_SUCCESS,
   GOTO_CARI_TERAPIS,
+  GOTO_SHOW_LOCATION,
+  GOTO_HOME,
 } from './ActionTypes';
 
 
 function gotoHome(res) {
-  NavigationService.navigate(SCREEN.SHOW_LOCATION);
+  NavigationService.navigate(SCREEN.HOME);
   return {
-    type: BATALKAN_PESANAN_USER_SUCCESS,
+    type: GOTO_HOME,
     payload: res,
   };
 }
@@ -25,13 +26,14 @@ function gotoHome(res) {
 function gotoShowLocation(res) {
   NavigationService.navigate(SCREEN.SHOW_LOCATION);
   return {
-    type: PESAN_SUCCESS,
+    type: GOTO_SHOW_LOCATION,
     payload: res,
   };
 }
 
 function gotoCariTerapis() {
-  NavigationService.navigate(SCREEN.SHOW_LOCATION);
+  console.log('go')
+  // NavigationService.navigate(SCREEN.CARI_TERAPIS);
   return {
     type: GOTO_CARI_TERAPIS,
   };
@@ -55,34 +57,39 @@ export function pesan(param) {
     dispatch({ type: PESAN });
     const paramz = queryString.stringify(param);
     requestGET(`${url}massage-app-server/order.php?${paramz}`)
-      .then(() => {
-        dispatch(gotoCariTerapis());
+      .then((res) => {
+        dispatch({
+          type: PESAN_SUCCESS,
+          payload: res,
+        });
+
+        console.log('juara')
       })
       .catch((error) => {
         dispatch({
           type: PESAN_FAIL,
           payload: error,
         });
+        console.log('juarawdwdw')
       });
   };
 }
 
-export function batalkanPesanan() {
-  return (dispatch) => {
-    dispatch({ type: BATALKAN_PESANAN_USER });
 
-    try {
-      fetch(`${url}https://jsonplaceholder.typicode.com/todos/1`)
-        .then((res) => res.json())
-        .then((res) => {
-          console.log(res);
-          dispatch(gotoHome());
+export function batalkanPesanan() {
+  return (dispatch, getState) => {
+    const { current_id_pesanan } = getState();
+
+    dispatch({ type: BATALKAN_PESANAN_USER });
+    requestGET(`${url}massage-app-server/apis/client/batalkanPesanan.php?id_pesanan=${current_id_pesanan}`)
+      .then(() => {
+        dispatch(gotoHome());
+      })
+      .catch((error) => {
+        dispatch({
+          type: BATALKAN_PESANAN_USER_FAIL,
+          payload: error,
         });
-    } catch (error) {
-      dispatch({
-        type: BATALKAN_PESANAN_USER_FAIL,
-        payload: error,
       });
-    }
   };
 }

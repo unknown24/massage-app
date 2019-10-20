@@ -1,0 +1,59 @@
+{
+    "params": [
+        "u1",
+        "-6.8803392",
+        "107.590031",
+        null,
+        null,
+        null
+    ],
+    "getActivePartner": {
+        "result": {
+            "documents": [
+                {
+                    "name": "projects/massage-blind/databases/(default)/documents/activePartner/p4",
+                    "fields": {
+                        "lokasi": {
+                            "geoPointValue": {
+                                "latitude": -6.8803184999999995596908775041811168193817138671875,
+                                "longitude": 107.5900232999999985850081429816782474517822265625
+                            }
+                        }
+                    },
+                    "createTime": "2019-10-11T14:38:36.154402Z",
+                    "updateTime": "2019-10-11T14:38:36.542477Z"
+                }
+            ]
+        },
+        "error": ""
+    },
+    "postfield": "{\"fields\": {\r\n    \"user_id\"   : {\"stringValue\": \"u1\" },\r\n    \"partner_id\": {\"stringValue\": \"p4\" },\r\n    \"distance\"  : {\"doubleValue\": 2.453550799591 },\r\n    \"payment\"   : {\"stringValue\": \"\" },\r\n    \"user_location\"  : {\r\n      \"geoPointValue\":\r\n        {\r\n          \"latitude\" : -6.8803392,\r\n          \"longitude\": 107.590031\r\n        }\r\n    }\r\n}}",
+    "addPesanan": {
+        "result": {
+            "name": "projects/massage-blind/databases/(default)/documents/pesanan/nMAyiRxpdxBExLjKcobw",
+            "fields": {
+                "user_id": {
+                    "stringValue": "u1"
+                },
+                "distance": {
+                    "doubleValue": 2.453550799590999975663407894899137318134307861328125
+                },
+                "payment": {
+                    "stringValue": ""
+                },
+                "partner_id": {
+                    "stringValue": "p4"
+                },
+                "user_location": {
+                    "geoPointValue": {
+                        "latitude": -6.8803391999999998773773768334649503231048583984375,
+                        "longitude": 107.5900309999999961974026518873870372772216796875
+                    }
+                }
+            },
+            "createTime": "2019-10-20T03:55:13.984496Z",
+            "updateTime": "2019-10-20T03:55:13.984496Z"
+        },
+        "error": ""
+    }
+}

@@ -7,7 +7,7 @@ import RegisterScreen from '../screens/Register';
 import LoginScreen from '../screens/Login';
 
 // debug screen
-import SearcScreen from '../components/sub_screen/SearchScreeen';
+import SearcScreen from '../screens/redux-integration/SearchScreenTes';
 import { SCREEN } from '../constants/Screen';
 
 
@@ -21,7 +21,7 @@ const AppNavigator = createAppContainer(
 
     },
     {
-      initialRouteName: SCREEN.CARI_TERAPIS,
+      initialRouteName: 'Login',
     },
   ),
 );

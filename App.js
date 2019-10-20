@@ -25,6 +25,7 @@ const robotProd = require('./assets/images/robot-prod.png');
 const spaceMono = require('./assets/fonts/SpaceMono-Regular.ttf');
 
 const middlewares = [thunk, logger];
+// const middlewares = [thunk];
 const store = createStore(stores, applyMiddleware(...middlewares));
 
 async function loadResourcesAsync() {

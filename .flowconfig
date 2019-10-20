@@ -1,0 +1,11 @@
+[ignore]
+    .*/node_modules/xdl/*
+[include]
+    .*/src/*
+[libs]
+    
+[lints]
+
+[options]
+
+[strict]

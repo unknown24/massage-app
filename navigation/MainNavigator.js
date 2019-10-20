@@ -13,7 +13,7 @@ import MapShowScreen from '../screens/redux-integration/FullScreenTes';
 
 const MainStack = createStackNavigator(
   {
-    Kategori: KategoriScreen,
+    [SCREEN.HOME]: KategoriScreen,
     Produk: ProdukScreen,
     Konfirmasi: KategoriScreen,
     EndStep: WaitingScreen,
@@ -21,7 +21,7 @@ const MainStack = createStackNavigator(
     [SCREEN.SHOW_LOCATION]: MapShowScreen,
   },
   {
-    initialRouteName: 'Kategori',
+    initialRouteName: SCREEN.HOME,
     navigationOptions: {
       header: null,
     },

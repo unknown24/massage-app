@@ -1,10 +1,17 @@
 import { connect } from 'react-redux';
-import  { batalkanPesanan } from '../../src/actions/ActionCreators';
+import { batalkanPesanan } from '../../src/actions/ActionCreators';
 import Search from '../SearchScreen';
 
-const mapDispatchToProps = { onPesan: batalkanPesanan };
+const mapStateToProps = (state) => ({
+  tipe: state.current_state_pesanan,
+  data: state,
+});
+
+const mapDispatchToProps = {
+  onBatalPesan: batalkanPesanan,
+};
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps,
 )(Search);
