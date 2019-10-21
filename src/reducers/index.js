@@ -14,7 +14,7 @@ const initialState = {
   current_state_pesanan: null,
   screens: {},
   raw_data: {
-    pesan: [],
+    pesan: {},
   },
 };
 
@@ -31,7 +31,7 @@ function todoApp(state = initialState, action) {
 }
 
 
-function pesanScreen(state = {}, action) {
+function pesanScreen(state = initialState, action) {
   switch (action.type) {
     case PESAN:
       return {
@@ -39,11 +39,14 @@ function pesanScreen(state = {}, action) {
         loader: true,
       };
     case PESAN_SUCCESS:
+
       return update(state, {
-        current_id_pesanan: { $set: extractResponPesan(action.payload) },
+        current_id_pesanan: { $set: extractResponPesan(action.payload).data.id_pesanan },
         current_state_pesanan: { $set: 'search' },
         raw_data: { pesan: { $set: action.payload } },
       });
+
+
     case PESAN_FAIL:
       return {
         ...state,

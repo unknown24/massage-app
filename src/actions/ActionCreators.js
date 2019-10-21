@@ -32,15 +32,14 @@ function gotoShowLocation(res) {
 }
 
 function gotoCariTerapis() {
-  console.log('go')
-  // NavigationService.navigate(SCREEN.CARI_TERAPIS);
+  NavigationService.navigate(SCREEN.CARI_TERAPIS);
   return {
     type: GOTO_CARI_TERAPIS,
   };
 }
 
 
-function requestGET(api) {
+export function requestGET(api) {
   try {
     return fetch(`${api}`)
       .then((res) => res.json());
@@ -62,15 +61,12 @@ export function pesan(param) {
           type: PESAN_SUCCESS,
           payload: res,
         });
-
-        console.log('juara')
       })
       .catch((error) => {
         dispatch({
           type: PESAN_FAIL,
           payload: error,
         });
-        console.log('juarawdwdw')
       });
   };
 }
