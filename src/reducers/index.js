@@ -3,7 +3,6 @@ import update from 'immutability-helper';
 import extractResponPesan from '../../library/ExtractRespons';
 
 import {
-  BATALKAN_PESANAN_USER_SUCCESS,
   PESAN,
   PESAN_SUCCESS,
   PESAN_FAIL,
@@ -17,18 +16,6 @@ const initialState = {
     pesan: {},
   },
 };
-
-function todoApp(state = initialState, action) {
-  switch (action.type) {
-    case BATALKAN_PESANAN_USER_SUCCESS:
-      return {
-        ...state,
-        data: action.payload,
-      };
-    default:
-      return state;
-  }
-}
 
 
 function pesanScreen(state = initialState, action) {
@@ -61,6 +48,5 @@ function pesanScreen(state = initialState, action) {
 
 
 export default combineReducers({
-  todoApp,
   pesanScreen,
 });
