@@ -1,5 +1,6 @@
+import { AsyncStorage } from 'react-native';
 import queryString from 'query-string';
-import NavigationService from '../navigations/NavigationService';
+import NavigationService from '../navigation/NavigationService';
 import url from '../../constants/API';
 
 import { SCREEN } from '../../constants/Screen';
@@ -12,7 +13,10 @@ import {
   GOTO_CARI_TERAPIS,
   GOTO_SHOW_LOCATION,
   GOTO_HOME,
-} from './ActionTypes';
+  INSERT_LOG,
+  SYNC_LOG,
+} from '../../constants/ActionTypes';
+import { requestGET } from '../../library/api-request';
 
 
 function gotoHome(res) {
@@ -39,17 +43,21 @@ function gotoCariTerapis() {
 }
 
 
-export function requestGET(api) {
-  try {
-    return fetch(`${api}`)
-      .then((res) => res.json());
-  } catch (error) {
-    return new Promise(() => {
-      throw error;
-    });
-  }
+export function getLog() {
+  return (dispatch) => AsyncStorage.getItem('log')
+    .then((data) => dispatch({
+      type: SYNC_LOG,
+      payload: data,
+    }));
 }
 
+function insertLog(data) {
+  return (dispatch) => AsyncStorage.setItem('log', JSON.stringify(data, null, 2))
+    .then(() => dispatch({
+      type: INSERT_LOG,
+      payload: data,
+    }));
+}
 
 export function pesan(param) {
   return (dispatch) => {
@@ -61,12 +69,16 @@ export function pesan(param) {
           type: PESAN_SUCCESS,
           payload: res,
         });
+        dispatch(insertLog(res));
+        dispatch(gotoCariTerapis());
       })
       .catch((error) => {
         dispatch({
           type: PESAN_FAIL,
           payload: error,
         });
+
+        dispatch(insertLog(error));
       });
   };
 }
@@ -78,14 +90,16 @@ export function batalkanPesanan() {
 
     dispatch({ type: BATALKAN_PESANAN_USER });
     requestGET(`${url}massage-app-server/apis/client/batalkanPesanan.php?id_pesanan=${current_id_pesanan}`)
-      .then(() => {
+      .then((res) => {
         dispatch(gotoHome());
+        dispatch(insertLog(res));
       })
       .catch((error) => {
         dispatch({
           type: BATALKAN_PESANAN_USER_FAIL,
           payload: error,
         });
+        dispatch(insertLog(error));
       });
   };
 }

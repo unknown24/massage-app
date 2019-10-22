@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
-import { pesan } from '../../src/actions/ActionCreators';
-import Pesan from '../Pesan';
+import { pesan } from '../actions/ActionCreators';
+import Pesan from '../../screens/Pesan';
 
 const mapDispatchToProps = { onPesan: pesan };
 

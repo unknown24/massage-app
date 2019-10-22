@@ -4,6 +4,7 @@ export const SCREEN = {
   PESAN: 'pesan',
   SHOW_LOCATION: 'show_location',
   CARI_TERAPIS: 'cari_terapis',
+  LOG: 'log',
 };
 
-export default '';
+export default SCREEN;

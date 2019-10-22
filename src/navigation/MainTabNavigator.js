@@ -5,10 +5,12 @@ import {
   createBottomTabNavigator,
 } from 'react-navigation';
 
-import TabBarIcon from '../components/TabBarIcon';
-import LinksScreen from '../screens/LinksScreen';
-import SettingsScreen from '../screens/SettingsScreen';
+import TabBarIcon from '../../components/TabBarIcon';
+import LinksScreen from '../../screens/LinksScreen';
+import SettingsScreen from '../../screens/SettingsScreen';
 import MainStack from './MainNavigator';
+import LogScreen from '../screens_connect/Log';
+
 
 const config = Platform.select({
   web: { headerMode: 'screen' },
@@ -80,6 +82,7 @@ SettingsStack.path = '';
 const tabNavigator = createBottomTabNavigator({
   HomeStack,
   SettingsStack,
+  Log: LogScreen,
 });
 
 tabNavigator.path = '';

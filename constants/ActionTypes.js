@@ -9,3 +9,6 @@ export const PESAN_SUCCESS = 'PESAN_SUCCESS';
 export const GOTO_HOME = 'GOTO_HOME';
 export const GOTO_SHOW_LOCATION = 'GOTO_SHOW_LOCATION';
 export const GOTO_CARI_TERAPIS = 'GOTO_CARI_TERAPIS';
+
+export const INSERT_LOG = 'INSERT_LOG';
+export const SYNC_LOG = 'SYNC_LOG';

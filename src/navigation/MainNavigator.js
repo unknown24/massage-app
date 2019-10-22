@@ -2,14 +2,15 @@
 import React from 'react';
 import { createStackNavigator } from 'react-navigation';
 
-import { SCREEN } from '../constants/Screen';
+import { SCREEN } from '../../constants/Screen';
 
 
-import KategoriScreen from '../screens/Kategori';
-import ProdukScreen from '../screens/Produk';
-import PesanScreen from '../screens/redux-integration/PesanTes';
-import WaitingScreen from '../screens/WaitingScreen';
-import MapShowScreen from '../screens/redux-integration/FullScreenTes';
+import KategoriScreen from '../../screens/Kategori';
+import ProdukScreen from '../../screens/Produk';
+import PesanScreen from '../screens_connect/PesanTes';
+import WaitingScreen from '../../screens/WaitingScreen';
+import MapShowScreen from '../screens_connect/FullScreenTes';
+import LogScreen from '../screens_connect/Log';
 
 const MainStack = createStackNavigator(
   {
@@ -19,6 +20,7 @@ const MainStack = createStackNavigator(
     EndStep: WaitingScreen,
     [SCREEN.PESAN]: PesanScreen,
     [SCREEN.SHOW_LOCATION]: MapShowScreen,
+    [SCREEN.LOG]: LogScreen,
   },
   {
     initialRouteName: SCREEN.HOME,

@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
-import batalkanPesanan from '../../src/actions/ActionCreators';
-import FullScreen from '../FullScreen';
+import batalkanPesanan from '../actions/ActionCreators';
+import FullScreen from '../../screens/FullScreen';
 
 const mapStateToProps = (state) => ({
   data: state.data,
