@@ -3,12 +3,12 @@ import React from 'react';
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 
 import TabNavigator from './MainTabNavigator';
-import RegisterScreen from '../../screens/Register';
-import LoginScreen from '../../screens/Login';
+import RegisterScreen from '../../../screens/Register';
+import LoginScreen from '../../../screens/Login';
 
 // debug screen
-import SearcScreen from '../screens_connect/SearchScreenTes';
-import { SCREEN } from '../../constants/Screen';
+import SearcScreen from '../../screens_connect/SearchScreenTes';
+import { SCREEN } from '../../../constants/Screen';
 
 
 const AppNavigator = createAppContainer(

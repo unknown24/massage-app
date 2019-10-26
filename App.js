@@ -15,8 +15,8 @@ import logger from 'redux-logger';
 
 import stores from './src/reducers';
 
-import AppNavigator from './src/navigation/AppNavigator';
-import NavigationService from './src/navigation/NavigationService';
+import AppNavigator from './src/screens/navigation/AppNavigator';
+import NavigationService from './src/screens/navigation/NavigationService';
 
 const roboto = require('native-base/Fonts/Roboto.ttf');
 const robotoMedium = require('native-base/Fonts/Roboto_medium.ttf');
@@ -24,7 +24,8 @@ const robotDev = require('./assets/images/robot-dev.png');
 const robotProd = require('./assets/images/robot-prod.png');
 const spaceMono = require('./assets/fonts/SpaceMono-Regular.ttf');
 
-const middlewares = [thunk, logger];
+// const middlewares = [thunk, logger];
+const middlewares = [thunk];
 const store = createStore(stores, applyMiddleware(...middlewares));
 
 async function loadResourcesAsync() {

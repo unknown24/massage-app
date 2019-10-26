@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import {
-  Container, Header, Content, Form, Textarea,
+  Container, Header, Content, Form, Textarea, Text,
 } from 'native-base';
 import PropTypes from 'prop-types';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
@@ -16,11 +16,14 @@ function Log(props) {
     <Container>
       <Header />
       <Content padder>
-        <Form>
+        <Text>
+          {text}
+        </Text>
+        {/* <Form>
           <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <Textarea rowSpan={25} bordered placeholder="Textarea" value={text} />
           </TouchableWithoutFeedback>
-        </Form>
+        </Form> */}
       </Content>
     </Container>
   );

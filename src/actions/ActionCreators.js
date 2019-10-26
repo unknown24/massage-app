@@ -1,6 +1,6 @@
 import { AsyncStorage } from 'react-native';
 import queryString from 'query-string';
-import NavigationService from '../navigation/NavigationService';
+import NavigationService from '../screens/navigation/NavigationService';
 import url from '../../constants/API';
 
 import { SCREEN } from '../../constants/Screen';
@@ -27,7 +27,7 @@ function gotoHome(res) {
   };
 }
 
-function gotoShowLocation(res) {
+export function gotoShowLocation(res) {
   NavigationService.navigate(SCREEN.SHOW_LOCATION);
   return {
     type: GOTO_SHOW_LOCATION,
@@ -84,12 +84,11 @@ export function pesan(param) {
 }
 
 
-export function batalkanPesanan() {
+export function batalkanPesanan(isOnSearch = 0) {
   return (dispatch, getState) => {
     const { current_id_pesanan } = getState();
-
     dispatch({ type: BATALKAN_PESANAN_USER });
-    requestGET(`${url}massage-app-server/apis/client/batalkanPesanan.php?id_pesanan=${current_id_pesanan}`)
+    requestGET(`${url}massage-app-server/apis/client/batalkanPesanan.php?id_pesanan=${current_id_pesanan}&isOnSearch=${isOnSearch}`)
       .then((res) => {
         dispatch(gotoHome());
         dispatch(insertLog(res));

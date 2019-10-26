@@ -20,10 +20,20 @@ const type = {
 };
 
 export default class PesananScreen extends React.Component {
+  componentDidMount() {
+    const { onMounted } = this.props;
+    onMounted();
+  }
+
   batalkanPesanan = () => {
     const { onBatalPesan } = this.props;
     onBatalPesan();
   }
+
+  static navigationOptions = {
+    header: null,
+    tabBarVisible: false,
+  };
 
   renderData() {
     const { tipe } = this.props;
@@ -61,9 +71,11 @@ export default class PesananScreen extends React.Component {
 PesananScreen.defaultProps = {
   tipe: 'search',
   onBatalPesan: () => {},
+  onMounted: () => console.log('mounted'),
 };
 
 PesananScreen.propTypes = {
   tipe: PropTypes.oneOf(['timeout', 'search']),
   onBatalPesan: PropTypes.func,
+  onMounted: PropTypes.func,
 };
