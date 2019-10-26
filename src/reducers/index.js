@@ -7,6 +7,7 @@ import {
   PESAN_FAIL,
   INSERT_LOG,
   SYNC_LOG,
+  GOTO_SHOW_LOCATION,
 } from '../../constants/ActionTypes';
 
 const initialState = {
@@ -62,6 +63,13 @@ function rootReducer(state = initialState, action) {
         log_text: {
           $set: `${state.log_text} -- 
         -- ${action.payload}`,
+        },
+      });
+
+    case GOTO_SHOW_LOCATION:
+      return update(state, {
+        current_id_pesanan: {
+          $set: action.payload[0],
         },
       });
 

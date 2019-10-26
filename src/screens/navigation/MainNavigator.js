@@ -2,15 +2,16 @@
 import React from 'react';
 import { Platform } from 'react-native';
 import { createStackNavigator } from 'react-navigation';
+import PropTypes from 'prop-types';
 import { SCREEN } from '../../../constants/Screen';
 
 
 import TabBarIcon from '../../../components/TabBarIcon';
-import KategoriScreen from '../../../screens/Kategori';
+import KategoriScreen from '../../screens_connect/Kategory';
 import ProdukScreen from '../../../screens/Produk';
 import PesanScreen from '../../screens_connect/PesanTes';
 import WaitingScreen from '../../../screens/WaitingScreen';
-import MapShowScreen from '../../screens_connect/FullScreenTes';
+import MapShowScreen from '../../screens_connect/ShowLocationTes';
 import LogScreen from '../../screens_connect/Log';
 
 const MainStack = createStackNavigator(
@@ -31,27 +32,34 @@ const MainStack = createStackNavigator(
   },
 );
 
+function Tabbar({ focused }) {
+  return (
+    <TabBarIcon
+      focused={focused}
+      name={
+        Platform.OS === 'ios'
+          ? `ios-home${focused ? '' : '-outline'}`
+          : 'md-home'
+      }
+    />
+  );
+}
+
+Tabbar.propTypes = {
+  focused: PropTypes.bool.isRequired,
+};
+
 MainStack.navigationOptions = ({ navigation }) => {
   let tabBarVisible = true;
-  console.log(navigation.state.routes, SCREEN.SHOW_LOCATION, navigation.state.index)
 
-  if (navigation.state.routes[0].routeName === SCREEN.SHOW_LOCATION) {
+  if (navigation.state.index > 0 && navigation.state.routes[1].routeName === SCREEN.SHOW_LOCATION) {
     tabBarVisible = false;
   }
 
   return {
     tabBarVisible,
     tabBarLabel: 'Home',
-    tabBarIcon: ({ focused }) => (
-      <TabBarIcon
-        focused={focused}
-        name={
-          Platform.OS === 'ios'
-            ? `ios-home${focused ? '' : '-outline'}`
-            : 'md-home'
-        }
-      />
-    ),
+    tabBarIcon: Tabbar,
   };
 };
 

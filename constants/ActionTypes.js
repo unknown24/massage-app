@@ -12,3 +12,5 @@ export const GOTO_CARI_TERAPIS = 'GOTO_CARI_TERAPIS';
 
 export const INSERT_LOG = 'INSERT_LOG';
 export const SYNC_LOG = 'SYNC_LOG';
+
+export const UPDATE_ID_PESANAN = 'UPDATE_ID_PESANAN';

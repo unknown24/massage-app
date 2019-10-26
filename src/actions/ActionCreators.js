@@ -15,6 +15,7 @@ import {
   GOTO_HOME,
   INSERT_LOG,
   SYNC_LOG,
+  UPDATE_ID_PESANAN,
 } from '../../constants/ActionTypes';
 import { requestGET } from '../../library/api-request';
 
@@ -98,6 +99,7 @@ export function batalkanPesanan(isOnSearch = 0) {
           type: BATALKAN_PESANAN_USER_FAIL,
           payload: error,
         });
+        console.log(error);
         dispatch(insertLog(error));
       });
   };

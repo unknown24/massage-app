@@ -4,6 +4,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import initApp from '../../../library/firebase/firebase';
 import { getLastString } from '../../../library/String';
+import { UPDATE_ID_PESANAN } from '../../../constants/ActionTypes';
 
 const firebase = initApp();
 const dbh = firebase.firestore();
@@ -16,7 +17,7 @@ const WrapperWithListening = (Component) => {
     }
 
     listenToPesanan(user_id) {
-      const { onChangeEvent } = this.props;
+      const { onChangeEvent, dispatch } = this.props;
       dbh.collection('pesananClient').where('user_id', '==', user_id)
         .onSnapshot((querySnapshot) => {
           querySnapshot.docChanges().forEach((change) => {

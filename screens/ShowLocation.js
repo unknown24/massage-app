@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
   },
 });
 
-class FullScreen extends React.Component {
+class ShowLocation extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -116,7 +116,7 @@ class FullScreen extends React.Component {
       const { location, ready } = this.state;
       const { height } = Dimensions.get('window');
       const {
-        layanan, type, kontak, posisi, onBatakan, nama, total, hargaJarak, jarak,
+        layanan, type, kontak, posisi, onBatalkan, nama, total, hargaJarak, jarak,
       } = this.props;
 
       return (
@@ -168,7 +168,7 @@ class FullScreen extends React.Component {
                         </ListItem>
                         <ListItem>
                           <Body>
-                            <Button info bordered style={{ justifyContent: 'center' }}><Text onPress={onBatakan}>Batalkan</Text></Button>
+                            <Button onPress={onBatalkan} info bordered style={{ justifyContent: 'center' }}><Text>Batalkan</Text></Button>
                           </Body>
                         </ListItem>
                         <Separator bordered>
@@ -217,7 +217,7 @@ class FullScreen extends React.Component {
     }
 }
 
-FullScreen.propTypes = {
+ShowLocation.propTypes = {
   layanan: PropTypes.arrayOf(PropTypes.string),
   type: PropTypes.oneOf(['terapis', 'client']),
   kontak: PropTypes.string,
@@ -226,20 +226,20 @@ FullScreen.propTypes = {
   hargaJarak: PropTypes.string,
   jarak: PropTypes.string,
   posisi: PropTypes.string,
-  onBatakan: PropTypes.func,
+  onBatalkan: PropTypes.func,
 
 };
 
-FullScreen.defaultProps = {
+ShowLocation.defaultProps = {
   layanan: ['Full Body Massage', '1 Jam'],
   type: 'terapis',
   kontak: '089776445332',
   posisi: 'Jl gagak no 7 sukajadi sumedang selatan bandung',
-  onBatakan: (e) => console.log(e),
   jarak: '1000m',
   hargaJarak: '2000',
   total: '100.000',
   nama: 'Agus Sutopo',
+  onBatalkan: () => console.log(),
 };
 
-export default FullScreen;
+export default ShowLocation;
