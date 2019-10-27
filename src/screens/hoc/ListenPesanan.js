@@ -1,10 +1,9 @@
 import React from 'react';
-// import hoistNonReactStatic from 'hoist-non-react-statics';
+import hoistNonReactStatic from 'hoist-non-react-statics';
 // import { withNavigation } from 'react-navigation';
 import PropTypes from 'prop-types';
 import initApp from '../../../library/firebase/firebase';
 import { getLastString } from '../../../library/String';
-import { UPDATE_ID_PESANAN } from '../../../constants/ActionTypes';
 
 const firebase = initApp();
 const dbh = firebase.firestore();
@@ -17,7 +16,7 @@ const WrapperWithListening = (Component) => {
     }
 
     listenToPesanan(user_id) {
-      const { onChangeEvent, dispatch } = this.props;
+      const { onChangeEvent } = this.props;
       dbh.collection('pesananClient').where('user_id', '==', user_id)
         .onSnapshot((querySnapshot) => {
           querySnapshot.docChanges().forEach((change) => {
@@ -46,6 +45,8 @@ const WrapperWithListening = (Component) => {
     user_id: PropTypes.string.isRequired,
     onChangeEvent: PropTypes.func.isRequired,
   };
+
+  hoistNonReactStatic(WithListening, Component);
 
   return WithListening;
 };

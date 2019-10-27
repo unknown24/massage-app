@@ -14,3 +14,4 @@ export const INSERT_LOG = 'INSERT_LOG';
 export const SYNC_LOG = 'SYNC_LOG';
 
 export const UPDATE_ID_PESANAN = 'UPDATE_ID_PESANAN';
+export const UPDATE_STATE_PESANAN = 'UPDATE_STATE_PESANAN';

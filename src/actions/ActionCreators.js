@@ -15,7 +15,7 @@ import {
   GOTO_HOME,
   INSERT_LOG,
   SYNC_LOG,
-  UPDATE_ID_PESANAN,
+  UPDATE_STATE_PESANAN,
 } from '../../constants/ActionTypes';
 import { requestGET } from '../../library/api-request';
 
@@ -84,14 +84,36 @@ export function pesan(param) {
   };
 }
 
+export function startTimerSearch() {
+  return (dispatch, getState) => {
+    setTimeout(() => {
+      dispatch({
+        type: UPDATE_STATE_PESANAN,
+        payload: 'timeout',
+      });
+      fetch(`https://firestore.googleapis.com/v1/projects/massage-blind/databases/(default)/documents/pesanan/${getState().current_id_pesanan}?key=AIzaSyBglHISyB36SibOQ2MWH_3SEN-MKwc4_1k`, { method: 'DELETE' })
+        .then((res) => res.json()).then((res) => console.log(res));
+    }, 10000);
+  };
+}
+
 
 export function batalkanPesanan(isOnSearch = 0) {
   return (dispatch, getState) => {
     const { current_id_pesanan } = getState();
     dispatch({ type: BATALKAN_PESANAN_USER });
+
     requestGET(`${url}massage-app-server/apis/client/batalkanPesanan.php?id_pesanan=${current_id_pesanan}&isOnSearch=${isOnSearch}`)
       .then((res) => {
-        dispatch(gotoHome());
+        if (res.code === 200) {
+          dispatch(gotoHome());
+        } else {
+          dispatch({
+            type: BATALKAN_PESANAN_USER_FAIL,
+            payload: res,
+          });
+          dispatch(gotoHome());
+        }
         dispatch(insertLog(res));
       })
       .catch((error) => {
@@ -99,7 +121,6 @@ export function batalkanPesanan(isOnSearch = 0) {
           type: BATALKAN_PESANAN_USER_FAIL,
           payload: error,
         });
-        console.log(error);
         dispatch(insertLog(error));
       });
   };

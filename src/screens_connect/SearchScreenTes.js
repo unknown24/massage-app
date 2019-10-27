@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { batalkanPesanan, gotoShowLocation } from '../actions/ActionCreators';
+import { batalkanPesanan, gotoShowLocation, startTimerSearch } from '../actions/ActionCreators';
 import Search from '../../screens/SearchScreen';
 import WrapperWithListening from '../screens/hoc/ListenPesanan';
 
@@ -14,6 +14,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = {
   onBatalPesan: batalkanPesanan.bind(null, 1),
   onChangeEvent: (res) => gotoShowLocation(res),
+  onMounted: startTimerSearch,
 };
 
 

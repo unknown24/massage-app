@@ -10,7 +10,7 @@ const mapStateToProps = (state) => ({
   posisi: 'dsadsa',
 });
 
-const mapDispatchToProps = { onBatalkan: batalkanPesanan };
+const mapDispatchToProps = { onBatalkan: batalkanPesanan.bind(null, 0) };
 
 export default connect(
   mapStateToProps,

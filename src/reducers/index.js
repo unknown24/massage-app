@@ -8,6 +8,7 @@ import {
   INSERT_LOG,
   SYNC_LOG,
   GOTO_SHOW_LOCATION,
+  UPDATE_STATE_PESANAN,
 } from '../../constants/ActionTypes';
 
 const initialState = {
@@ -69,7 +70,14 @@ function rootReducer(state = initialState, action) {
     case GOTO_SHOW_LOCATION:
       return update(state, {
         current_id_pesanan: {
-          $set: action.payload[0],
+          $set: action.payload[0].id_pesanan,
+        },
+      });
+
+    case UPDATE_STATE_PESANAN:
+      return update(state, {
+        current_state_pesanan: {
+          $set: action.payload,
         },
       });
 
