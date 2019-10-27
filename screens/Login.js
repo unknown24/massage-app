@@ -1,6 +1,8 @@
-import React, { Component } from "react";
-import { AsyncStorage, View, Image } from "react-native";
-import PropTypes from "prop-types";
+import React, { Component } from 'react';
+import { 
+  AsyncStorage, View, Image, ToastAndroid,
+} from 'react-native';
+import PropTypes from 'prop-types';
 
 import {
   Container,
@@ -11,65 +13,63 @@ import {
   Input,
   Button,
   Text,
-  Label
-} from "native-base";
-import URL from "../constants/API";
-import { ToastAndroid } from "react-native";
+  Label,
+} from 'native-base';
+import URL from '../constants/API';
+import { SCREEN } from '../constants/Screen';
 
 export default class Login extends Component {
-  static propTypes = {
-    navigation: PropTypes.shape({
-      navigate: PropTypes.func
-    })
-  };
 
-  state = {
-    email: "aep.stmik@gmail.com",
-    password: "123456"
-  };
-
-  async handleLogin() {
-    const { email, password } = this.state;
-    const { navigate } = this.props.navigation;
-    const respon = await this.validateLogin(email, password);
-    if (respon.status) {
-      // lempar screen
-      await AsyncStorage.multiSet([["login", '1'], ["user_id", respon.data.id]])
-      navigate("Main");
-    } else {
-      // toast message
-      ToastAndroid.show(respon.message, ToastAndroid.SHORT);
-    }
-  }
-
-  async validateLogin(email, password) {
-    
+  static async validateLogin(email, password) {
     const body = new FormData();
-    body.append("email", email);
-    body.append("password", password);
-    body.append("tipe", "user");
+    body.append('email', email);
+    body.append('password', password);
+    body.append('tipe', 'user');
 
-    const res = await fetch(URL + "massage-app-server/login.php", {
-      method: "POST",
-      body: body
+    const res = await fetch(`${URL}massage-app-server/login.php`, {
+      method: 'POST',
+      body,
     })
-      .then(r => r.text())
-      .then(r => {
+      .then((r) => r.text())
+      .then((r) => {
         try {
           return JSON.parse(r);
         } catch (error) {
-          console.log("e", error, r);
+          console.log('e', error, r);
           return r;
         }
       });
-
     return res;
   }
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      email: 'aep.stmik@gmail.com',
+      password: '123456',
+    };
+  }
+
   async componentDidMount() {
-    const isLogin = await AsyncStorage.getItem("login");
+    const { navigation } = this.props;
+    const isLogin = await AsyncStorage.getItem('login');
     if (isLogin) {
-      this.props.navigation.navigate("Home");
+      navigation.navigate(SCREEN.HOME);
+    }
+  }
+
+  async handleLogin() {
+    const { navigation } = this.props;
+    const { email, password } = this.state;
+    const { navigate } = navigation;
+    const respon = await Login.validateLogin(email, password);
+    if (respon.status) {
+      // lempar screen
+      await AsyncStorage.multiSet([['login', '1'], ['user_id', respon.data.id]])
+      navigate('Main');
+    } else {
+      // toast message
+      ToastAndroid.show(respon.message, ToastAndroid.SHORT);
     }
   }
 
@@ -129,3 +129,9 @@ export default class Login extends Component {
     );
   }
 }
+
+Login.propTypes = {
+  navigation: PropTypes.shape({
+    navigate: PropTypes.func,
+  }).isRequired,
+};

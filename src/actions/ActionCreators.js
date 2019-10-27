@@ -93,7 +93,7 @@ export function startTimerSearch() {
       });
       fetch(`https://firestore.googleapis.com/v1/projects/massage-blind/databases/(default)/documents/pesanan/${getState().current_id_pesanan}?key=AIzaSyBglHISyB36SibOQ2MWH_3SEN-MKwc4_1k`, { method: 'DELETE' })
         .then((res) => res.json()).then((res) => console.log(res));
-    }, 10000);
+    }, 30000);
   };
 }
 
