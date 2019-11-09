@@ -59,6 +59,7 @@ export default class App extends Component {
     this.user_id = await AsyncStorage.getItem('user_id');
     const { navigation } = this.props
     this.options = navigation.getParam('options', {tes:0})
+    this.product = this.props.navigation.getParam('produk', 'unknown')
 
     // object reduce total
     this.total_param =_.reduce(this.options, function(result, value, key) {
@@ -155,7 +156,11 @@ export default class App extends Component {
       latitude : lokasi.lat,
       longitude: lokasi.lng,
       payment : 'tunai',
-      user_id : this.user_id
+      user_id : this.user_id,
+      products : {
+        options: this.options,
+        name : this.product,
+      }
     }
 
     if ('onPesan' in this.props) {

@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import Log from '../screens/screens/Log';
-import { getLog } from '../actions/ActionCreators';
+import { getLog } from '../actions/ActionCreators.ts';
 
 
 const mapStateToProps = (state) => ({

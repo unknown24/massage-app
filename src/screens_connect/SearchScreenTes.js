@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { batalkanPesanan, gotoShowLocation, startTimerSearch } from '../actions/ActionCreators';
+import { batalkanPesanan, gotoShowLocation, startTimerSearch } from '../actions/ActionCreators.ts';
 import Search from '../../screens/SearchScreen';
 import WrapperWithListening from '../screens/hoc/ListenPesanan';
 

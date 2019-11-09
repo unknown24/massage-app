@@ -1,3 +1,5 @@
+/* eslint-disable */
+ 
 import React, { Component } from 'react';
 import { SCREEN } from '../constants/Screen';
 import {Image} from 'react-native'
@@ -17,6 +19,7 @@ import {
 } from 'native-base';
 import { getProductPricing } from '../library/api-request';
 import _ from 'lodash';
+import { AllProducts } from '../constants/interfaces'
 
 
 const data = {
@@ -42,7 +45,7 @@ export default class ProdukScreen extends Component {
 
     async componentDidMount(){
       const id = this.props.navigation.getParam('id', null)
-      const respon = await getProductPricing(id)
+      const respon:AllProducts = await getProductPricing(id)
       _.mapValues(respon.data, (val)=> val[0].price)
       
       this.setState({

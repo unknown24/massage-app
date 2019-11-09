@@ -19,7 +19,6 @@ import {
 } from '../../constants/ActionTypes';
 import { requestGET } from '../../library/api-request';
 
-
 function gotoHome(res) {
   NavigationService.navigate(SCREEN.HOME);
   return {
@@ -60,21 +59,27 @@ function insertLog(data) {
     }));
 }
 
+
+
 export function pesan(param) {
   return (dispatch) => {
     dispatch({ type: PESAN });
-    const paramz = queryString.stringify(param);
-    requestGET(`${url}massage-app-server/order.php?${paramz}`)
-      .then((res) => {
-        dispatch({
-          type: PESAN_SUCCESS,
-          payload: res,
-        });
-        dispatch(insertLog(res));
-        dispatch(gotoCariTerapis());
-      })
-      .catch((error) => {
-        dispatch({
+    fetch(`${url}massage-app-server/order.php`, {
+      method: 'POST',
+      body: JSON.stringify(param),
+    })
+    .then(res => res.text())
+    .then((res) => {
+      dispatch({
+        type: PESAN_SUCCESS,
+        payload: res,
+      });
+      dispatch(insertLog(res));
+      dispatch(gotoCariTerapis());
+    })
+    .catch((error) => {
+      console.log(error)
+      dispatch({
           type: PESAN_FAIL,
           payload: error,
         });

@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { batalkanPesanan } from '../actions/ActionCreators';
+import { batalkanPesanan } from '../actions/ActionCreators.ts';
 import ShowLocation from '../../screens/ShowLocation';
 
 const mapStateToProps = (state) => ({

@@ -55,12 +55,17 @@
     "redux": "^4.0.4",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0",
-    "rn-sliding-up-panel": "^2.3.3"
+    "rn-sliding-up-panel": "^2.3.3",
+    "typescript": "^3.7.2"
   },
   "devDependencies": {
     "@babel/cli": "^7.6.4",
     "@babel/core": "^7.6.4",
     "@babel/preset-flow": "^7.0.0",
+    "@types/jest": "^24.0.22",
+    "@types/react": "^16.9.11",
+    "@types/react-native": "^0.60.22",
+    "@types/react-test-renderer": "^16.9.1",
     "babel-eslint": "^10.0.3",
     "babel-preset-expo": "^7.0.0",
     "detox": "^14.4.0",

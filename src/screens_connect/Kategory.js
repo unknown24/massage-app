@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 
-import { gotoShowLocation } from '../actions/ActionCreators';
+import { gotoShowLocation } from '../actions/ActionCreators.ts';
 import Kategory from '../../screens/Kategori';
 import WrapperWithListening from '../screens/hoc/ListenPesanan';
 
