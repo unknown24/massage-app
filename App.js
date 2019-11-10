@@ -13,7 +13,7 @@ import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import logger from 'redux-logger';
 
-import stores from './src/reducers';
+import stores from './src/reducers/index.ts';
 
 import AppNavigator from './src/screens/navigation/AppNavigator';
 import NavigationService from './src/screens/navigation/NavigationService';

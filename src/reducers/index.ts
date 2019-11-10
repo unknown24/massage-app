@@ -9,16 +9,25 @@ import {
   SYNC_LOG,
   GOTO_SHOW_LOCATION,
   UPDATE_STATE_PESANAN,
+  LOAD_USER_DETAIL,
+  LOAD_USER_DETAIL_SUCCESS,
+  LOAD_USER_DETAIL_FAILED
+
 } from '../../constants/ActionTypes';
+import { ResDetail } from '../actions/ActionCreators';
 
 const initialState = {
-  current_id_pesanan: null,
-  current_state_pesanan: null,
+  current_id_pesanan: '',
+  current_state_pesanan: '',
   current_error: '',
   log_text: '',
   loader: false,
   screens: {},
   current_pesanan: {},
+  current_terapis: {
+    email:'aep.com',
+    telepon: '3239123982'
+  },
   raw_data: {
     pesan: {},
   },
@@ -84,6 +93,14 @@ function rootReducer(state = initialState, action) {
           $set: action.payload,
         },
       });
+
+
+    case LOAD_USER_DETAIL_SUCCESS: {
+      const data:ResDetail = action.payload
+      return update(state, {
+        current_terapis : {$set : data}
+      });
+    }
 
     default:
       return state;

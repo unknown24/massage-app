@@ -2,12 +2,23 @@ import { connect } from 'react-redux';
 import { batalkanPesanan } from '../actions/ActionCreators.ts';
 import ShowLocation from '../../screens/ShowLocation';
 
+/**
+ *
+ * [index: number]: {
+    id: string,
+    email: string,
+    telepon: string,
+    password: string,
+    tipe: string
+  };
+ */
+
 const mapStateToProps = (state) => ({
   data: state.data,
   layanan: [],
   type: 'terapis',
-  nama: 'agus suyono',
-  kontak: '0909',
+  nama: state.current_terapis.email,
+  kontak: state.current_terapis.telepon,
   posisi: state.current_pesanan.posisi,
 });
 

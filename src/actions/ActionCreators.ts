@@ -16,8 +16,56 @@ import {
   INSERT_LOG,
   SYNC_LOG,
   UPDATE_STATE_PESANAN,
+  LOAD_USER_DETAIL,
+  LOAD_USER_DETAIL_FAILED,
+  LOAD_USER_DETAIL_SUCCESS
 } from '../../constants/ActionTypes';
 import { requestGET } from '../../library/api-request';
+
+// data source
+
+interface Thunk {
+  (dispatch: (data:Dispatch)=>void, getState: Function):object;
+}
+
+interface Dispatch {
+  type:string;
+  payload?:any;
+}
+
+export interface ResDetail{
+  [index: number]: {
+    id: string,
+    email: string,
+    telepon: string,
+    password: string,
+    tipe: string
+  };
+}
+
+function getDetailTerapis(id:string):Thunk{
+  return (dispatch, getState) => {
+    dispatch({
+      type: LOAD_USER_DETAIL,
+    })
+    fetch(`${url}apps/users/detail/${id}`)
+      .then(r => r.json())
+      .then((r:ResDetail) => {
+        dispatch({
+          type: LOAD_USER_DETAIL_SUCCESS,
+          payload: r,
+        })
+      })
+      .catch(err=>{
+        dispatch({
+          type: LOAD_USER_DETAIL_FAILED
+        })
+      })
+    return {}
+  }
+} 
+
+
 
 function gotoHome(res) {
   NavigationService.navigate(SCREEN.HOME);
