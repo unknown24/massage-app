@@ -28,6 +28,7 @@ const WrapperWithListening = (Component) => {
                   user_id: doc.data().user_id,
                   partner_id: doc.data().partner_id,
                   status: doc.data().status,
+                  posisi: doc.data().posisi,
                 });
               });
               onChangeEvent(pesanan);

@@ -6,8 +6,9 @@ const mapStateToProps = (state) => ({
   data: state.data,
   layanan: [],
   type: 'terapis',
+  nama: 'agus suyono',
   kontak: '0909',
-  posisi: 'dsadsa',
+  posisi: state.current_pesanan.posisi,
 });
 
 const mapDispatchToProps = { onBatalkan: batalkanPesanan.bind(null, 0) };

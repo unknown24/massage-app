@@ -68,8 +68,9 @@ export function pesan(param) {
       method: 'POST',
       body: JSON.stringify(param),
     })
-    .then(res => res.text())
+    .then(res => res.json())
     .then((res) => {
+      console.log(res)
       dispatch({
         type: PESAN_SUCCESS,
         payload: res,

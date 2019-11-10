@@ -18,6 +18,7 @@ const initialState = {
   log_text: '',
   loader: false,
   screens: {},
+  current_pesanan: {},
   raw_data: {
     pesan: {},
   },
@@ -71,6 +72,9 @@ function rootReducer(state = initialState, action) {
       return update(state, {
         current_id_pesanan: {
           $set: action.payload[0].id_pesanan,
+        },
+        current_pesanan: {
+          $set: action.payload[0],
         },
       });
 
