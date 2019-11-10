@@ -15,6 +15,7 @@ import {
 
 } from '../../constants/ActionTypes';
 import { ResDetail } from '../actions/ActionCreators';
+const res = {}
 
 const initialState = {
   current_id_pesanan: '',
@@ -24,10 +25,11 @@ const initialState = {
   loader: false,
   screens: {},
   current_pesanan: {},
-  current_terapis: {
+  current_terapis: [{
     email:'aep.com',
-    telepon: '3239123982'
-  },
+    telepon: '3239123982',
+    
+  }],
   raw_data: {
     pesan: {},
   },
