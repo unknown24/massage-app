@@ -67,7 +67,7 @@ function getDetailTerapis(id:string):Thunk{
 
 
 
-function gotoHome(res) {
+function gotoHome(res:any) {
   NavigationService.navigate(SCREEN.HOME);
   return {
     type: GOTO_HOME,
@@ -75,7 +75,7 @@ function gotoHome(res) {
   };
 }
 
-export function gotoShowLocation(res) {
+export function gotoShowLocation(res:any) {
   NavigationService.navigate(SCREEN.SHOW_LOCATION);
   return {
     type: GOTO_SHOW_LOCATION,
@@ -92,15 +92,15 @@ function gotoCariTerapis() {
 
 
 export function getLog() {
-  return (dispatch) => AsyncStorage.getItem('log')
+  return (dispatch:any) => AsyncStorage.getItem('log')
     .then((data) => dispatch({
       type: SYNC_LOG,
       payload: data,
     }));
 }
 
-function insertLog(data) {
-  return (dispatch) => AsyncStorage.setItem('log', JSON.stringify(data, null, 2))
+function insertLog(data:any) {
+  return (dispatch:any) => AsyncStorage.setItem('log', JSON.stringify(data, null, 2))
     .then(() => dispatch({
       type: INSERT_LOG,
       payload: data,
@@ -109,8 +109,8 @@ function insertLog(data) {
 
 
 
-export function pesan(param) {
-  return (dispatch) => {
+export function pesan(param:any) {
+  return (dispatch:any) => {
     dispatch({ type: PESAN });
     fetch(`${url}massage-app-server/order.php`, {
       method: 'POST',
@@ -139,7 +139,7 @@ export function pesan(param) {
 }
 
 export function startTimerSearch() {
-  return (dispatch, getState) => {
+  return (dispatch:any, getState:any) => {
     setTimeout(() => {
       dispatch({
         type: UPDATE_STATE_PESANAN,
@@ -153,20 +153,20 @@ export function startTimerSearch() {
 
 
 export function batalkanPesanan(isOnSearch = 0) {
-  return (dispatch, getState) => {
+  return (dispatch:any, getState:any) => {
     const { current_id_pesanan } = getState();
     dispatch({ type: BATALKAN_PESANAN_USER });
 
     requestGET(`${url}massage-app-server/apis/client/batalkanPesanan.php?id_pesanan=${current_id_pesanan}&isOnSearch=${isOnSearch}`)
       .then((res) => {
         if (res.code === 200) {
-          dispatch(gotoHome());
+          dispatch(gotoHome(res));
         } else {
           dispatch({
             type: BATALKAN_PESANAN_USER_FAIL,
             payload: res,
           });
-          dispatch(gotoHome());
+          dispatch(gotoHome(res));
         }
         dispatch(insertLog(res));
       })

@@ -12,7 +12,11 @@
     "flow": "flow"
   },
   "jest": {
-    "preset": "jest-expo"
+    "preset": "react-native",
+    "transform": {
+      "^.+\\.tsx$": "babel-jest"
+    },
+    "moduleFileExtensions": ["ts", "tsx", "js", "jsx", "json", "node"]
   },
   "dependencies": {
     "@expo/samples": "~3.0.3",
@@ -61,8 +65,10 @@
   "devDependencies": {
     "@babel/cli": "^7.6.4",
     "@babel/core": "^7.6.4",
+    "@babel/plugin-proposal-class-properties": "^7.7.0",
     "@babel/preset-flow": "^7.0.0",
-    "@types/jest": "^24.0.22",
+    "@babel/preset-typescript": "^7.7.2",
+    "@types/jest": "^24.0.23",
     "@types/react": "^16.9.11",
     "@types/react-native": "^0.60.22",
     "@types/react-test-renderer": "^16.9.1",
@@ -78,10 +84,12 @@
     "eslint-plugin-react": "^7.16.0",
     "expo-detox-hook": "^1.0.10",
     "flow-bin": "^0.109.0",
+    "jest": "^24.9.0",
     "jest-expo": "^35.0.0",
     "prettier": "1.18.2",
     "react-native-debugger-open": "^0.3.22",
-    "react-native-testing-library": "^1.11.1"
+    "react-native-testing-library": "^1.11.1",
+    "ts-jest": "^24.1.0"
   },
   "private": true,
   "detox": {
