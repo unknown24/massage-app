@@ -11,7 +11,8 @@ import {
   UPDATE_STATE_PESANAN,
   LOAD_USER_DETAIL,
   LOAD_USER_DETAIL_SUCCESS,
-  LOAD_USER_DETAIL_FAILED
+  LOAD_USER_DETAIL_FAILED,
+  GOTO_CARI_TERAPIS
 
 } from '../../constants/ActionTypes';
 import { ResDetail } from '../actions/ActionCreators';
@@ -38,6 +39,9 @@ const initialState = {
 
 function rootReducer(state = initialState, action) {
   switch (action.type) {
+    case GOTO_CARI_TERAPIS: 
+      return  Object.assign({}, state, {current_state_pesanan:action.payload})
+    
     case PESAN:
 
       return update(state, {

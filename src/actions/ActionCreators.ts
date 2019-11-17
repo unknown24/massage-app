@@ -83,10 +83,11 @@ export function gotoShowLocation(res:any) {
   };
 }
 
-function gotoCariTerapis() {
+function gotoCariTerapis(tipe:string) {
   NavigationService.navigate(SCREEN.CARI_TERAPIS);
   return {
     type: GOTO_CARI_TERAPIS,
+    payload:tipe,
   };
 }
 
@@ -112,6 +113,7 @@ function insertLog(data:any) {
 export function pesan(param:any) {
   return (dispatch:any) => {
     dispatch({ type: PESAN });
+    dispatch(gotoCariTerapis('search'));
     fetch(`${url}massage-app-server/order.php`, {
       method: 'POST',
       body: JSON.stringify(param),
@@ -124,7 +126,6 @@ export function pesan(param:any) {
         payload: res,
       });
       dispatch(insertLog(res));
-      dispatch(gotoCariTerapis());
     })
     .catch((error) => {
       console.log(error)
