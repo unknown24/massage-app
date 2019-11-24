@@ -175,15 +175,12 @@ export default class App extends Component {
       .then(res=>res.text())
       res = JSON.parse(res)
       res.error = ""
-      console.log({res})
     } catch (error) {
-      console.log({error})
       Alert.alert('Error In Server.')
       return
     }
 
     if (res.error == ""){
-      console.log(res)
 
       let idPesanan = res.addPesanan.result.name.split('/')
       idPesanan = idPesanan[idPesanan.length -1]

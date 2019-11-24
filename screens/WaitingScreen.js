@@ -77,7 +77,6 @@ export default class WaitingScreen extends React.Component {
       fetch('http://apis.blindmassage.id/massage-app-server/apis/client/batalkanPesanan.php?id_pesanan='+ this.props.navigation.getParam('idPesanan', null))
         .then(res => res.json())
         .then(res => {
-          console.log(this.props.navigation.getParam('idPesanan', null) ,res)
 
           if (res.code == 400) {
             Toast.show({

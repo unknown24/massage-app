@@ -11,12 +11,12 @@ import PropTypes from 'prop-types';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
-import logger from 'redux-logger';
 
 import stores from './src/reducers/index.ts';
 
 import AppNavigator from './src/screens/navigation/AppNavigator';
 import NavigationService from './src/screens/navigation/NavigationService';
+
 
 const roboto = require('native-base/Fonts/Roboto.ttf');
 const robotoMedium = require('native-base/Fonts/Roboto_medium.ttf');
@@ -24,7 +24,7 @@ const robotDev = require('./assets/images/robot-dev.png');
 const robotProd = require('./assets/images/robot-prod.png');
 const spaceMono = require('./assets/fonts/SpaceMono-Regular.ttf');
 
-// const middlewares = [thunk, logger];
+
 const middlewares = [thunk];
 const store = createStore(stores, applyMiddleware(...middlewares));
 
@@ -58,6 +58,7 @@ const styles = StyleSheet.create({
   },
 });
 
+
 export default function App(props) {
   const [isLoadingComplete, setLoadingComplete] = useState(false);
   const { skipLoadingScreen } = props;
@@ -71,6 +72,7 @@ export default function App(props) {
       />
     );
   }
+
 
   return (
     <Provider store={store}>

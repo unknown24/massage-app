@@ -48,7 +48,6 @@ export default class AnatomyExample extends Component {
         }
       });
     } else {
-      console.log(res);
       Toast.show({
         text: JSON.stringify(res),
         buttonText: 'Okay'

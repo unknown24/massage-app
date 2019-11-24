@@ -11,7 +11,9 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = {
-  onChangeEvent: (res) => gotoShowLocation(res),
+  onChangeEvent: (res) => {
+    return gotoShowLocation(res)
+  },
 };
 
 

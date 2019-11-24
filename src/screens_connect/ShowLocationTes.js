@@ -1,7 +1,9 @@
+import _ from 'lodash';
 import { connect } from 'react-redux';
-import { batalkanPesanan } from '../actions/ActionCreators.ts';
+import { compose } from 'redux';
+import * as AllFunction  from '../actions/ActionCreators.ts';
 import ShowLocation from '../../screens/ShowLocation';
-import _ from 'lodash'
+import withDebugger from '../screens/hoc/ListenToDebugger';
 
 /**
  *
@@ -14,10 +16,9 @@ import _ from 'lodash'
   };
  */
 
- //state[0].current_terapis.email
+// state[0].current_terapis.email
 const mapStateToProps = (state) => {
-  console.log(state)
-  const nama = _.get(state, 'current_terapis[0].email','') ;
+  const nama = _.get(state, 'current_terapis[0].email', '');
 
   return {
     data: state.data,
@@ -32,9 +33,22 @@ const mapStateToProps = (state) => {
   }
 };
 
-const mapDispatchToProps = { onBatalkan: batalkanPesanan.bind(null, 0) };
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onBatalkan: () => dispatch(AllFunction['batalkanPesanan'](0)),
+    onChangeDebug: (data) => dispatch(data),
+    runDebug: (obj) => {
+      console.log(AllFunction)
+      if (obj.fn in AllFunction) {
+        console.log(obj.fn);
+        return dispatch(AllFunction[obj.fn]());
+      }
+      return {
+        type: 'JUARA',
+      }
+    }
+  };
+};
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(ShowLocation);
+
+export default connect(mapStateToProps, mapDispatchToProps)(ShowLocation);

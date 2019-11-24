@@ -1,6 +1,5 @@
 import React from 'react';
 import hoistNonReactStatic from 'hoist-non-react-statics';
-// import { withNavigation } from 'react-navigation';
 import PropTypes from 'prop-types';
 import initApp from '../../../library/firebase/firebase';
 import { getLastString } from '../../../library/String';
@@ -19,6 +18,7 @@ const WrapperWithListening = (Component) => {
       const { onChangeEvent } = this.props;
       dbh.collection('pesananClient').where('user_id', '==', user_id)
         .onSnapshot((querySnapshot) => {
+
           querySnapshot.docChanges().forEach((change) => {
             if (change.type === 'added' || change.type === 'modified') {
               const pesanan = [];
@@ -30,6 +30,12 @@ const WrapperWithListening = (Component) => {
                   status: doc.data().status,
                   posisi: doc.data().posisi,
                 });
+              });
+              onChangeEvent(pesanan);
+            } else {
+              const pesanan = [];
+              pesanan.push({
+                status: 'deleted',
               });
               onChangeEvent(pesanan);
             }

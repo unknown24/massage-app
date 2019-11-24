@@ -67,7 +67,7 @@ function getDetailTerapis(id:string):Thunk{
 
 
 
-function gotoHome(res:any) {
+export function gotoHome(res:any) {
   NavigationService.navigate(SCREEN.HOME);
   return {
     type: GOTO_HOME,
@@ -120,7 +120,6 @@ export function pesan(param:any) {
     })
     .then(res => res.json())
     .then((res) => {
-      console.log(res)
       dispatch({
         type: PESAN_SUCCESS,
         payload: res,
@@ -128,7 +127,6 @@ export function pesan(param:any) {
       dispatch(insertLog(res));
     })
     .catch((error) => {
-      console.log(error)
       dispatch({
           type: PESAN_FAIL,
           payload: error,
