@@ -1,9 +1,7 @@
 import _ from 'lodash';
 import { connect } from 'react-redux';
-import { compose } from 'redux';
-import * as AllFunction  from '../actions/ActionCreators.ts';
+import * as AllFunction from '../actions/ActionCreators.ts';
 import ShowLocation from '../../screens/ShowLocation';
-import withDebugger from '../screens/hoc/ListenToDebugger';
 
 /**
  *
@@ -38,13 +36,11 @@ const mapDispatchToProps = (dispatch) => {
     onBatalkan: () => dispatch(AllFunction['batalkanPesanan'](0)),
     onChangeDebug: (data) => dispatch(data),
     runDebug: (obj) => {
-      console.log(AllFunction)
       if (obj.fn in AllFunction) {
-        console.log(obj.fn);
         return dispatch(AllFunction[obj.fn]());
       }
       return {
-        type: 'JUARA',
+        type: 'TESTING',
       }
     }
   };

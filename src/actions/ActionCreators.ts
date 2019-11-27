@@ -22,6 +22,8 @@ import {
 } from '../../constants/ActionTypes';
 import { requestGET } from '../../library/api-request';
 
+
+
 // data source
 
 interface Thunk {
@@ -66,9 +68,15 @@ function getDetailTerapis(id:string):Thunk{
 } 
 
 
+export function tesGoToHome(){
+  return (dispatch) => {
+    dispatch(NavigationActions.navigate({ routeName: SCREEN.HOME }))
+  }
+}
+
 
 export function gotoHome(res:any) {
-  NavigationService.navigate(SCREEN.HOME);
+  console.log(NavigationService.navigate(SCREEN.HOME));
   return {
     type: GOTO_HOME,
     payload: res,

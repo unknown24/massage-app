@@ -79,9 +79,7 @@ export default function App(props) {
       <View style={styles.container}>
         {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
         <AppNavigator
-          ref={(navigatorRef) => {
-            NavigationService.setTopLevelNavigator(navigatorRef);
-          }}
+          ref={(navigatorRef) => NavigationService.setTopLevelNavigator(navigatorRef)}
         />
       </View>
     </Provider>

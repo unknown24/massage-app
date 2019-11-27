@@ -18,13 +18,14 @@ import {
 import URL from '../constants/API';
 import { SCREEN } from '../constants/Screen';
 
-export default class Login extends Component {
+class Login extends Component {
 
   static async validateLogin(email, password) {
     const body = new FormData();
     body.append('email', email);
     body.append('password', password);
     body.append('tipe', 'user');
+
 
     const res = await fetch(`${URL}massage-app-server/login.php`, {
       method: 'POST',
@@ -58,7 +59,7 @@ export default class Login extends Component {
     }
   }
 
-  async handleLogin() {
+  handleLogin = async () => {
     const { navigation } = this.props;
     const { email, password } = this.state;
     const { navigate } = navigation;
@@ -108,13 +109,13 @@ export default class Login extends Component {
               />
             </Item>
             <Button
-              onPress={this.handleLogin.bind(this)}
+              onPress={this.handleLogin}
               info
               style={{
-                justifyContent: "center",
-                marginLeft    : 20,
-                marginRight   : 20,
-                marginTop     : 20
+                justifyContent: 'center',
+                marginLeft: 20,
+                marginRight: 20,
+                marginTop: 20,
               }}
             >
               <Text> Login </Text>
@@ -135,3 +136,6 @@ Login.propTypes = {
     navigate: PropTypes.func,
   }).isRequired,
 };
+
+
+export default Login;
